@@ -2,7 +2,7 @@ import Filter from '@/components/Filter';
 import ProductList from '@/components/ProductList';
 import Image from 'next/image';
 
-const Page = () => {
+const SinglePage = () => {
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative">
       <div className="hidden bg-pink-50 px-4 sm:flex justify-between h-64">
@@ -24,4 +24,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default SinglePage;
