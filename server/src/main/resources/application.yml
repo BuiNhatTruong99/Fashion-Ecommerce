@@ -15,4 +15,8 @@ spring:
       hibernate:
         format_sql: true
     database: postgresql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
