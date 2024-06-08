@@ -60,7 +60,7 @@ public class ProductService implements IProductService {
         validateImage(productDTO.getImages());
 
         for (MultipartFile image : productDTO.getImages()) {
-            productImageService.createProductImage(newProduct.getId(), ProductImageDTO.builder().imageUrl(image.getOriginalFilename()).build());
+            productImageService.createProductImage(newProduct.getId(), image);
         }
 
         return savedProduct;
@@ -106,13 +106,14 @@ public class ProductService implements IProductService {
     }
 
     private void validateImage(List<MultipartFile> images) {
+        if (images.size() > 5) {
+            throw new IllegalArgumentException("Cannot upload more than 5 images");
+        }
+
         for (MultipartFile image : images) {
             String contentType = image.getContentType();
             if (contentType == null || !contentType.startsWith("image")) {
                 throw new IllegalArgumentException("File must be an image");
-            }
-            if (images.size() > 5) {
-                throw new IllegalArgumentException("Cannot upload more than 5 images");
             }
         }
     }

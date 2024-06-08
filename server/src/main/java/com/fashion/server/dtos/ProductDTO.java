@@ -22,6 +22,6 @@ public class ProductDTO {
     @JsonProperty("category_id")
     private Integer categoryId;
 
-    @NotEmpty(message = "At least one image is required")
+    @NotNull(message = "At least one image is required")
     private List<MultipartFile> images;
 }
