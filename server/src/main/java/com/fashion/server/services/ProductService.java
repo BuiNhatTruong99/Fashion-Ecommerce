@@ -1,11 +1,11 @@
 package com.fashion.server.services;
 
 import com.fashion.server.dtos.ProductDTO;
-import com.fashion.server.dtos.ProductImageDTO;
 import com.fashion.server.exception.DuplicateResourceException;
 import com.fashion.server.exception.RequestValidationException;
 import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Product;
+import com.fashion.server.models.ProductImage;
 import com.fashion.server.repositories.CategoryRepository;
 import com.fashion.server.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,13 +67,14 @@ public class ProductService implements IProductService {
         return savedProduct;
     }
 
+    @Transactional
     @Override
     public Product updateProduct(Integer productID, ProductDTO productDTO) {
         Product existingProduct = getProductById(productID);
 
         boolean changes = false;
 
-        if (productDTO.getName() != null) {
+        if (productDTO.getName() != null && !productDTO.getName().equals(existingProduct.getName())) {
             if (productRepository.existsByName(productDTO.getName())) {
                 throw new DuplicateResourceException("Product [%s] already exists ".formatted(productDTO.getName()));
             }
@@ -91,6 +93,18 @@ public class ProductService implements IProductService {
                                     .formatted(productDTO.getCategoryId()))));
             changes = true;
         }
+        //productDTO.getImages() != null && !productDTO.getImages().isEmpty()
+        if (!productDTO.getImages().get(0).isEmpty()) {
+            validateImage(productDTO.getImages());
+            List<ProductImage> productImages = productImageService.getAllProductImagesByProductID(existingProduct.getId());
+            for (ProductImage productImage : productImages) {
+                productImageService.deleteAllProductImageByProductId(productImage.getId());
+            }
+            for (MultipartFile image : productDTO.getImages()) {
+                productImageService.createProductImage(existingProduct.getId(), image);
+            }
+            changes = true;
+        }
 
         if (!changes) {
             throw new RequestValidationException("No changes to update");
@@ -102,6 +116,11 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(Integer productID) {
         Product existingProduct = getProductById(productID);
+
+        List<ProductImage> productImages = productImageService.getAllProductImagesByProductID(existingProduct.getId());
+        for (ProductImage productImage : productImages) {
+            productImageService.deleteAllProductImageByProductId(productImage.getId());
+        }
         productRepository.delete(existingProduct);
     }
 

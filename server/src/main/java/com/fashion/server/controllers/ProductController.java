@@ -1,7 +1,6 @@
 package com.fashion.server.controllers;
 
 import com.fashion.server.dtos.ProductDTO;
-import com.fashion.server.exception.DuplicateResourceException;
 import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.services.ProductService;
 import jakarta.validation.Valid;
@@ -58,5 +57,27 @@ public class ProductController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping(value = "/{productID}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateProduct(@PathVariable Integer productID,
+                                           @Valid @ModelAttribute ProductDTO productDTO,
+                                           BindingResult result) {
+
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(FieldError::getDefaultMessage)
+                    .toList();
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        productService.updateProduct(productID, productDTO);
+        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{productID}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer productID) {
+        productService.deleteProduct(productID);
+        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
     }
 }

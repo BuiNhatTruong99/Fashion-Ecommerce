@@ -2,20 +2,22 @@ package com.fashion.server.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.fashion.server.dtos.ProductImageDTO;
 import com.fashion.server.exception.ImageUploadException;
 import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.ProductImage;
 import com.fashion.server.repositories.ProductImageRepository;
 import com.fashion.server.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductImageService implements IProductImageService {
@@ -53,9 +55,18 @@ public class ProductImageService implements IProductImageService {
     }
 
     @Override
-    public void deleteProductImage(Integer productImageID) {
+    public void deleteAllProductImageByProductId(Integer productImageID) {
         ProductImage existingProductImage = getProductImageById(productImageID);
-        productImageRepository.delete(existingProductImage);
+        try {
+            productImageRepository.delete(existingProductImage);
+            String assertName = existingProductImage.getImageUrl()
+                    .substring(existingProductImage.getImageUrl().lastIndexOf("/") + 1);
+            String publicId = assertName.substring(0, assertName.lastIndexOf("."));
+            cloudinary.uploader().destroy("fashion-products/" + publicId, ObjectUtils.emptyMap());
+        } catch (Exception e) {
+            throw new ImageUploadException(e.getMessage());
+        }
+
     }
 
 }

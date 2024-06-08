@@ -14,5 +14,5 @@ public interface IProductImageService {
 
     ProductImage createProductImage(Integer productID, MultipartFile images);
 
-    void deleteProductImage(Integer productImageID);
+    void deleteAllProductImageByProductId(Integer productImageID);
 }
