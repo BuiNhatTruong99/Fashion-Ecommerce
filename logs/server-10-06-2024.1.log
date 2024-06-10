@@ -1,0 +1,7 @@
+2024-06-10 20:43:15.811 [http-nio-8080-exec-6] ERROR c.f.server.services.ProductService - Product 300 not found 
+2024-06-10 20:43:16.557 [http-nio-8080-exec-7] ERROR c.f.server.services.ProductService - Product 300 not found 
+2024-06-10 20:43:19.776 [http-nio-8080-exec-8] ERROR c.f.server.services.ProductService - Product 300 not found 
+2024-06-10 20:43:20.254 [http-nio-8080-exec-9] ERROR c.f.server.services.ProductService - Product 300 not found 
+2024-06-10 20:43:26.944 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+2024-06-10 20:43:26.946 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated... 
+2024-06-10 20:43:27.354 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed. 

@@ -10,7 +10,7 @@ public interface IProductService {
 
     Product getProductById(Integer productID);
 
-    Page<Product> getAllProducts(PageRequest pageRequest);
+    Page<Product> getAllProducts(String keyword, Integer categoryId, PageRequest pageRequest);
 
     Product createProduct(ProductDTO productDTO);
 

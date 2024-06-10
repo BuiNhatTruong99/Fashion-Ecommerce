@@ -7,6 +7,8 @@ import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Category;
 import com.fashion.server.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CategoryService.class);
+
     private final CategoryRepository categoryRepository;
 
     @Override
@@ -25,13 +30,18 @@ public class CategoryService implements ICategoryService {
     public Category getCategoryById(Integer categoryID) {
         return categoryRepository
                 .findById(categoryID)
-                .orElseThrow(() -> new ResourceNotFoundException("Category [%s] not found".formatted(categoryID)));
+                .orElseThrow(() -> {
+                    logger.error("Category {} not found", categoryID);
+                    return new ResourceNotFoundException("Category [%s] not found".formatted(categoryID));
+                });
     }
 
     @Override
     public Category createCategory(CategoryDTO categoryDTO) {
         if (categoryRepository.existsByName(categoryDTO.getName())) {
-            throw new DuplicateResourceException("Category [%s] already exists ".formatted(categoryDTO.getName()));
+            logger.error("Category {} already exists", categoryDTO.getName());
+            throw new DuplicateResourceException("Category [%s] already exists"
+                    .formatted(categoryDTO.getName()));
         }
         Category newCategory = Category.builder()
                 .name(categoryDTO.getName())
@@ -48,17 +58,21 @@ public class CategoryService implements ICategoryService {
 
         if (categoryDTO.getName() != null && !categoryDTO.getName().equals(existingCategory.getName())) {
             if (categoryRepository.existsByName(categoryDTO.getName())) {
-                throw new DuplicateResourceException("Category [%s] already exists ".formatted(categoryDTO.getName()));
+                logger.error("Category {} already exists", categoryDTO.getName());
+                throw new DuplicateResourceException("Category [%s] already exists"
+                        .formatted(categoryDTO.getName()));
             }
             existingCategory.setName(categoryDTO.getName());
             changes = true;
         }
-        if (categoryDTO.getThumbnail() != null && !categoryDTO.getThumbnail().equals(existingCategory.getThumbnail())) {
+        if (categoryDTO.getThumbnail() != null
+                && !categoryDTO.getThumbnail().equals(existingCategory.getThumbnail())) {
             existingCategory.setThumbnail(categoryDTO.getThumbnail());
             changes = true;
         }
 
         if (!changes) {
+            logger.error("No changes to update");
             throw new RequestValidationException("No changes to update");
         }
 

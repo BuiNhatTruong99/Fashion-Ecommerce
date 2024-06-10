@@ -2,10 +2,13 @@ package com.fashion.server.controllers;
 
 import com.fashion.server.dtos.ProductDTO;
 import com.fashion.server.exception.ResourceNotFoundException;
+import com.fashion.server.models.Product;
 import com.fashion.server.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +26,18 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts(PageRequest.of(0, 10)));
+    public ResponseEntity<?> getAllProducts(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        PageRequest pageRequest = PageRequest.of(
+                page, limit,
+                Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+        List<Product> products = productPage.getContent();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{productID}")
@@ -60,9 +73,10 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{productID}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateProduct(@PathVariable Integer productID,
-                                           @Valid @ModelAttribute ProductDTO productDTO,
-                                           BindingResult result) {
+    public ResponseEntity<?> updateProduct(
+            @PathVariable Integer productID,
+            @Valid @ModelAttribute ProductDTO productDTO,
+            BindingResult result) {
 
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()

@@ -9,18 +9,21 @@ import com.fashion.server.models.ProductImage;
 import com.fashion.server.repositories.CategoryRepository;
 import com.fashion.server.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     private final ProductRepository productRepository;
     private final ProductImageService productImageService;
@@ -30,12 +33,15 @@ public class ProductService implements IProductService {
     public Product getProductById(Integer productID) {
         return productRepository
                 .findById(productID)
-                .orElseThrow(() -> new ResourceNotFoundException("Product [%s] not found".formatted(productID)));
+                .orElseThrow(() -> {
+                    logger.error("Product {} not found", productID);
+                    return new ResourceNotFoundException("Product [%s] not found".formatted(productID));
+                });
     }
 
     @Override
-    public Page<Product> getAllProducts(PageRequest pageRequest) {
-        return productRepository.findAll(pageRequest);
+    public Page<Product> getAllProducts(String keyword, Integer categoryId, PageRequest pageRequest) {
+        return productRepository.searchProduct(keyword, categoryId, pageRequest);
     }
 
 
@@ -43,7 +49,9 @@ public class ProductService implements IProductService {
     @Override
     public Product createProduct(ProductDTO productDTO) {
         if (productRepository.existsByName(productDTO.getName())) {
-            throw new DuplicateResourceException("Product [%s] already exists ".formatted(productDTO.getName()));
+            logger.error("Product {} already exists", productDTO.getName());
+            throw new DuplicateResourceException("Product [%s] already exists"
+                    .formatted(productDTO.getName()));
         }
 
         Product newProduct = Product.builder()
@@ -51,9 +59,11 @@ public class ProductService implements IProductService {
                 .description(productDTO.getDescription())
                 .category(categoryRepository
                         .findById(productDTO.getCategoryId())
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "Category [%s] not found"
-                                        .formatted(productDTO.getCategoryId()))))
+                        .orElseThrow(() -> {
+                            logger.error("Category {} not found", productDTO.getCategoryId());
+                            return new ResourceNotFoundException("Category [%s] not found"
+                                    .formatted(productDTO.getCategoryId()));
+                        }))
                 .build();
 
         Product savedProduct = productRepository.save(newProduct);
@@ -76,27 +86,34 @@ public class ProductService implements IProductService {
 
         if (productDTO.getName() != null && !productDTO.getName().equals(existingProduct.getName())) {
             if (productRepository.existsByName(productDTO.getName())) {
-                throw new DuplicateResourceException("Product [%s] already exists ".formatted(productDTO.getName()));
+                logger.error("Product {} already exists", productDTO.getName());
+                throw new DuplicateResourceException("Product [%s] already exists "
+                        .formatted(productDTO.getName()));
             }
             existingProduct.setName(productDTO.getName());
             changes = true;
         }
-        if (productDTO.getDescription() != null && !productDTO.getDescription().equals(existingProduct.getDescription())) {
+        if (productDTO.getDescription() != null
+                && !productDTO.getDescription().equals(existingProduct.getDescription())) {
             existingProduct.setDescription(productDTO.getDescription());
             changes = true;
         }
-        if (productDTO.getCategoryId() != null && !productDTO.getCategoryId().equals(existingProduct.getCategory().getId())) {
+        if (productDTO.getCategoryId() != null
+                && !productDTO.getCategoryId().equals(existingProduct.getCategory().getId())) {
             existingProduct.setCategory(categoryRepository
                     .findById(productDTO.getCategoryId())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "Category [%s] not found"
-                                    .formatted(productDTO.getCategoryId()))));
+                    .orElseThrow(() -> {
+                        logger.error("Category {} not found", productDTO.getCategoryId());
+                        return new ResourceNotFoundException("Category [%s] not found"
+                                .formatted(productDTO.getCategoryId()));
+                    }));
             changes = true;
         }
-        //productDTO.getImages() != null && !productDTO.getImages().isEmpty()
+
         if (!productDTO.getImages().get(0).isEmpty()) {
             validateImage(productDTO.getImages());
-            List<ProductImage> productImages = productImageService.getAllProductImagesByProductID(existingProduct.getId());
+            List<ProductImage> productImages = productImageService
+                    .getAllProductImagesByProductID(existingProduct.getId());
             for (ProductImage productImage : productImages) {
                 productImageService.deleteAllProductImageByProductId(productImage.getId());
             }
@@ -107,6 +124,7 @@ public class ProductService implements IProductService {
         }
 
         if (!changes) {
+            logger.error("No changes to update");
             throw new RequestValidationException("No changes to update");
         }
 
@@ -116,8 +134,8 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(Integer productID) {
         Product existingProduct = getProductById(productID);
-
-        List<ProductImage> productImages = productImageService.getAllProductImagesByProductID(existingProduct.getId());
+        List<ProductImage> productImages = productImageService
+                .getAllProductImagesByProductID(existingProduct.getId());
         for (ProductImage productImage : productImages) {
             productImageService.deleteAllProductImageByProductId(productImage.getId());
         }
@@ -126,12 +144,14 @@ public class ProductService implements IProductService {
 
     private void validateImage(List<MultipartFile> images) {
         if (images.size() > 5) {
+            logger.error("Cannot upload more than 5 images");
             throw new IllegalArgumentException("Cannot upload more than 5 images");
         }
 
         for (MultipartFile image : images) {
             String contentType = image.getContentType();
             if (contentType == null || !contentType.startsWith("image")) {
+                logger.error("File must be an image");
                 throw new IllegalArgumentException("File must be an image");
             }
         }

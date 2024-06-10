@@ -8,7 +8,6 @@ import com.fashion.server.models.ProductImage;
 import com.fashion.server.repositories.ProductImageRepository;
 import com.fashion.server.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductImageService implements IProductImageService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductImageService.class);
 
     private final ProductImageRepository productImageRepository;
     private final ProductRepository productRepository;
@@ -34,7 +34,11 @@ public class ProductImageService implements IProductImageService {
     @Override
     public ProductImage getProductImageById(Integer productImageID) {
         return productImageRepository.findById(productImageID)
-                .orElseThrow(() -> new ResourceNotFoundException("ProductImage [%s] not found".formatted(productImageID)));
+                .orElseThrow(() -> {
+                    logger.error("Product image {} not found", productImageID);
+                    return new ResourceNotFoundException("Product image [%s] not found"
+                            .formatted(productImageID));
+                });
     }
 
     @Override
@@ -46,10 +50,15 @@ public class ProductImageService implements IProductImageService {
             ProductImage newProductImage = ProductImage.builder()
                     .imageUrl(uploadResponse.get("url").toString())
                     .product(productRepository.findById(productID)
-                            .orElseThrow(() -> new ResourceNotFoundException("Product [%s] not found".formatted(productID))))
+                            .orElseThrow(() -> {
+                                logger.error("Product {} not found", productID);
+                                return new ResourceNotFoundException("Product [%s] not found"
+                                        .formatted(productID));
+                            }))
                     .build();
             return productImageRepository.save(newProductImage);
         } catch (Exception e) {
+            logger.info("Error uploading image: {}", e.getMessage());
             throw new ImageUploadException(e.getMessage());
         }
     }
@@ -64,6 +73,7 @@ public class ProductImageService implements IProductImageService {
             String publicId = assertName.substring(0, assertName.lastIndexOf("."));
             cloudinary.uploader().destroy("fashion-products/" + publicId, ObjectUtils.emptyMap());
         } catch (Exception e) {
+            logger.info("Error deleting image: {}", e.getMessage());
             throw new ImageUploadException(e.getMessage());
         }
 

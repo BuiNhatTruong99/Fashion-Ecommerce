@@ -26,7 +26,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult result) {
+    public ResponseEntity<?> createCategory(
+            @Valid @RequestBody CategoryDTO categoryDTO, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
                     .stream()
@@ -39,7 +40,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryID}")
-    public ResponseEntity<?> updateCategory(@PathVariable Integer categoryID, @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> updateCategory(
+            @PathVariable Integer categoryID, @RequestBody CategoryDTO categoryDTO) {
         categoryService.updateCategory(categoryID, categoryDTO);
         return new ResponseEntity<>("Category updated successfully", HttpStatus.OK);
     }
