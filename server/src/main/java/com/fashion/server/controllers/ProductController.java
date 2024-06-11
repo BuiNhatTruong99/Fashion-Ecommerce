@@ -3,7 +3,9 @@ package com.fashion.server.controllers;
 import com.fashion.server.dtos.ProductDTO;
 import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Product;
+import com.fashion.server.services.ProductRedisService;
 import com.fashion.server.services.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,21 +25,27 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductService productService;
 
-    @GetMapping
+    private final ProductService productService;
+    private final ProductRedisService productRedisService;
+
+    @GetMapping("")
     public ResponseEntity<?> getAllProducts(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
-    ) {
+    ) throws JsonProcessingException {
         PageRequest pageRequest = PageRequest.of(
                 page, limit,
                 Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
-        List<Product> products = productPage.getContent();
-        return ResponseEntity.ok(products);
+        List<Product> redisProducts = productRedisService.getProducts(keyword, categoryId, pageRequest);
+        if (redisProducts == null || redisProducts.isEmpty()) {
+            Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+            List<Product> products = productPage.getContent();
+            productRedisService.saveProducts(products, keyword, categoryId, pageRequest);
+        }
+        return ResponseEntity.ok(redisProducts);
     }
 
     @GetMapping("/{productID}")
