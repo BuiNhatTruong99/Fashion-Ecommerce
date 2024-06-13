@@ -3549,3 +3549,102 @@ java.lang.NullPointerException: null
 2024-06-11 17:45:29.845 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
 2024-06-11 17:45:29.847 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated... 
 2024-06-11 17:45:30.262 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed. 
+2024-06-11 20:47:17.523 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final 
+2024-06-11 20:47:17.623 [main] INFO  c.fashion.server.ServerApplication - Starting ServerApplication using Java 17.0.10 with PID 15320 (D:\Myproject\FashionStore\server\target\classes started by Truong Bui in D:\Myproject\FashionStore) 
+2024-06-11 20:47:17.627 [main] INFO  c.fashion.server.ServerApplication - No active profile set, falling back to 1 default profile: "default" 
+2024-06-11 20:47:19.420 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode 
+2024-06-11 20:47:19.423 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+2024-06-11 20:47:19.734 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 294 ms. Found 3 JPA repository interfaces. 
+2024-06-11 20:47:19.776 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode 
+2024-06-11 20:47:19.778 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode. 
+2024-06-11 20:47:19.814 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:47:19.814 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:47:19.815 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:47:19.816 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces. 
+2024-06-11 20:47:20.914 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http) 
+2024-06-11 20:47:20.942 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"] 
+2024-06-11 20:47:20.947 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
+2024-06-11 20:47:20.947 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24] 
+2024-06-11 20:47:21.195 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
+2024-06-11 20:47:21.196 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3452 ms 
+2024-06-11 20:47:21.481 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+2024-06-11 20:47:21.599 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final 
+2024-06-11 20:47:21.662 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled 
+2024-06-11 20:47:22.209 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer 
+2024-06-11 20:47:22.263 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting... 
+2024-06-11 20:47:23.736 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@12d44a2a 
+2024-06-11 20:47:23.738 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed. 
+2024-06-11 20:47:23.866 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default) 
+2024-06-11 20:47:25.553 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+2024-06-11 20:47:26.488 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+2024-06-11 20:47:27.146 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used. 
+2024-06-11 20:47:28.675 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+2024-06-11 20:47:29.344 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"] 
+2024-06-11 20:47:29.379 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/' 
+2024-06-11 20:47:29.393 [main] INFO  c.fashion.server.ServerApplication - Started ServerApplication in 12.564 seconds (process running for 13.862) 
+2024-06-11 20:47:44.576 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet' 
+2024-06-11 20:47:44.576 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet' 
+2024-06-11 20:47:44.578 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms 
+2024-06-11 20:47:57.997 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+2024-06-11 20:47:58.410 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated... 
+2024-06-11 20:47:58.809 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed. 
+2024-06-11 20:48:11.155 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final 
+2024-06-11 20:48:11.261 [main] INFO  c.fashion.server.ServerApplication - Starting ServerApplication using Java 17.0.10 with PID 1584 (D:\Myproject\FashionStore\server\target\classes started by Truong Bui in D:\Myproject\FashionStore) 
+2024-06-11 20:48:11.266 [main] INFO  c.fashion.server.ServerApplication - No active profile set, falling back to 1 default profile: "default" 
+2024-06-11 20:48:12.896 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode 
+2024-06-11 20:48:12.899 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode. 
+2024-06-11 20:48:13.166 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 252 ms. Found 3 JPA repository interfaces. 
+2024-06-11 20:48:13.202 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode 
+2024-06-11 20:48:13.204 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode. 
+2024-06-11 20:48:13.238 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.CategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:48:13.239 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.ProductImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:48:13.242 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.fashion.server.repositories.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository 
+2024-06-11 20:48:13.242 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces. 
+2024-06-11 20:48:14.442 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http) 
+2024-06-11 20:48:14.459 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"] 
+2024-06-11 20:48:14.466 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
+2024-06-11 20:48:14.467 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24] 
+2024-06-11 20:48:14.617 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
+2024-06-11 20:48:14.618 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3241 ms 
+2024-06-11 20:48:14.920 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+2024-06-11 20:48:15.062 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final 
+2024-06-11 20:48:15.149 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled 
+2024-06-11 20:48:15.756 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer 
+2024-06-11 20:48:15.808 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting... 
+2024-06-11 20:48:16.768 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23a78c77 
+2024-06-11 20:48:16.770 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed. 
+2024-06-11 20:48:16.933 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default) 
+2024-06-11 20:48:18.576 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+2024-06-11 20:48:19.185 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+2024-06-11 20:48:19.681 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used. 
+2024-06-11 20:48:21.169 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+2024-06-11 20:48:21.862 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"] 
+2024-06-11 20:48:21.896 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/' 
+2024-06-11 20:48:21.916 [main] INFO  c.fashion.server.ServerApplication - Started ServerApplication in 11.433 seconds (process running for 12.539) 
+2024-06-11 20:53:48.530 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet' 
+2024-06-11 20:53:48.531 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet' 
+2024-06-11 20:53:48.533 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms 
+2024-06-11 20:53:48.955 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@23a78c77 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.958 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@583840f7 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.959 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@a5fd0c0 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.961 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@c667ab1 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.962 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@272508b9 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.964 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@3d00cb52 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.966 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@492dc5e2 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.968 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@76219d84 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.969 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@794e3339 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 20:53:48.973 [http-nio-8080-exec-1] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@422f3d19 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.177 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@33ad20a2 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.179 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@720aecc9 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.180 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@1102c95d (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.181 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@4bf043ef (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.183 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@60c7757b (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.194 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@450eb10e (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.196 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@42c1c0d3 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.198 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@b671c5f (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.200 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@5050dce5 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:16.201 [http-nio-8080-exec-6] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@60669120 (This connection has been closed.). Possibly consider using a shorter maxLifetime value. 
+2024-06-11 21:07:32.943 [http-nio-8080-exec-10] ERROR c.f.server.services.CategoryService - Category Shirts already exists 
+2024-06-11 21:20:49.098 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+2024-06-11 21:20:49.124 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated... 
+2024-06-11 21:20:49.152 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed. 

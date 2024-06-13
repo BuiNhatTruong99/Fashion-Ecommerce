@@ -57,6 +57,7 @@ public class ProductService implements IProductService {
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
+                .information(productDTO.getInformation())
                 .category(categoryRepository
                         .findById(productDTO.getCategoryId())
                         .orElseThrow(() -> {
@@ -98,6 +99,13 @@ public class ProductService implements IProductService {
             existingProduct.setDescription(productDTO.getDescription());
             changes = true;
         }
+
+        if (productDTO.getInformation() != null
+                && !productDTO.getInformation().equals(existingProduct.getInformation())) {
+            existingProduct.setInformation(productDTO.getInformation());
+            changes = true;
+        }
+
         if (productDTO.getCategoryId() != null
                 && !productDTO.getCategoryId().equals(existingProduct.getCategory().getId())) {
             existingProduct.setCategory(categoryRepository

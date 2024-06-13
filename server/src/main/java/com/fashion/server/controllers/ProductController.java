@@ -24,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProductController {
 
     private final ProductService productService;
@@ -35,17 +36,19 @@ public class ProductController {
             @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
-    ) throws JsonProcessingException {
+    ) {
         PageRequest pageRequest = PageRequest.of(
                 page, limit,
                 Sort.by(Sort.Direction.DESC, "createdAt"));
-        List<Product> redisProducts = productRedisService.getProducts(keyword, categoryId, pageRequest);
-        if (redisProducts == null || redisProducts.isEmpty()) {
-            Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
-            List<Product> products = productPage.getContent();
-            productRedisService.saveProducts(products, keyword, categoryId, pageRequest);
-        }
-        return ResponseEntity.ok(redisProducts);
+//        List<Product> redisProducts = productRedisService.getProducts(keyword, categoryId, pageRequest);
+//        if (redisProducts == null || redisProducts.isEmpty()) {
+//            Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+//            List<Product> products = productPage.getContent();
+//            productRedisService.saveProducts(products, keyword, categoryId, pageRequest);
+//        }
+        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+        List<Product> products = productPage.getContent();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{productID}")

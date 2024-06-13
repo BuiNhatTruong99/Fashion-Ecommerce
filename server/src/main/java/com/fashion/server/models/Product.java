@@ -24,6 +24,9 @@ public class Product extends BaseModel {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "information", nullable = false)
+    private String information;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     @JsonIgnore
@@ -31,4 +34,5 @@ public class Product extends BaseModel {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images;
+
 }
