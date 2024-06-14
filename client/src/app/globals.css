@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 html *::-webkit-scrollbar {
   border-radius: 0;
   width: 8px;

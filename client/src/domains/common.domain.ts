@@ -18,4 +18,8 @@ interface IProductImage {
   imageUrl: string;
 }
 
-export type { ICategory, IProduct, IProductImage };
+interface IProductImagesProps {
+  images?: IProductImage[];
+}
+
+export type { ICategory, IProduct, IProductImage, IProductImagesProps };
