@@ -12,7 +12,7 @@ const CategoryList = () => {
       <div className="flex gap-4 md:gap-8">
         {categories?.map((category) => (
           <Link
-            href={`/list?${category.id}`}
+            href={`/list?cat=${category.id}`}
             className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6"
             key={category.id}
           >

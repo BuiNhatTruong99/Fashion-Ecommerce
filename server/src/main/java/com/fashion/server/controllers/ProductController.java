@@ -35,11 +35,13 @@ public class ProductController {
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int limit
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "updatedAt") String sortBy,
+            @RequestParam(defaultValue = "DESC") String sortDirection
     ) {
-        PageRequest pageRequest = PageRequest.of(
-                page, limit,
-                Sort.by(Sort.Direction.DESC, "createdAt"));
+        Sort.Direction direction = sortDirection
+                .equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(direction, sortBy));
 //        List<Product> redisProducts = productRedisService.getProducts(keyword, categoryId, pageRequest);
 //        if (redisProducts == null || redisProducts.isEmpty()) {
 //            Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);

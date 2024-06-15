@@ -1,6 +1,7 @@
 interface IProductListProps {
-  categoryId?: string;
+  categoryId?: number;
   limit?: number;
+  searchParams?: any;
 }
 
 export type { IProductListProps };

@@ -5,8 +5,8 @@ import { useProductList } from '@/queries/product';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const ProductList = ({ categoryId, limit }: IProductListProps) => {
-  const { data: products } = useProductList({ categoryId, limit });
+const ProductList = ({ categoryId, limit, searchParams }: IProductListProps) => {
+  const { data: products } = useProductList({ categoryId, limit, searchParams });
 
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">

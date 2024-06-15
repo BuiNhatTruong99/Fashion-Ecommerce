@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERIES_KEY } from '../key';
 import { IProductListProps } from '@/domains/params.domain';
 
-export const useProductList = ({ categoryId, limit }: IProductListProps) => {
+export const useProductList = ({ categoryId, limit, searchParams }: IProductListProps) => {
   return useQuery({
-    queryFn: () => getProducts({ categoryId, limit }),
-    queryKey: [QUERIES_KEY.PRODUCT.GET_PRODUCTS, categoryId, limit]
+    queryFn: () => getProducts({ categoryId, limit, searchParams }),
+    queryKey: [QUERIES_KEY.PRODUCT.GET_PRODUCTS, categoryId, limit, searchParams]
   });
 };
 

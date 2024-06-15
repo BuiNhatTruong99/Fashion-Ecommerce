@@ -1,5 +1,3 @@
-import { getProducts } from '@/services';
-
 const EndPoints = {
   category: {
     getCategories: '/categories'
