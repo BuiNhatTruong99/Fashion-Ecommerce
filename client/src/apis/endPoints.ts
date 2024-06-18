@@ -4,7 +4,8 @@ const EndPoints = {
   },
   product: {
     getProducts: '/products',
-    getProductDetail: (id: number) => `/products/${id}`
+    getProductDetail: (id: number) => `/products/${id}`,
+    getProductVariants: `/product-variant`
   }
 };
 

@@ -35,7 +35,7 @@ public class ProductVariantService implements IProductVariantService {
             logger.error("Product {} not found", productId);
             throw new ResourceNotFoundException("Product [%s] not found".formatted(productId));
         }
-        return productVariantRepository.searchProductVariant(productId, Color.valueOf(color.name()), Size.valueOf(size.name()));
+        return productVariantRepository.searchProductVariant(productId, color, size);
     }
 
     @Override
@@ -44,8 +44,6 @@ public class ProductVariantService implements IProductVariantService {
         ProductVariant productVariant = ProductVariant.builder()
                 .color(productVariantDTO.getColor())
                 .size(productVariantDTO.getSize())
-                .oldPrice(productVariantDTO.getOldPrice())
-                .newPrice(productVariantDTO.getNewPrice())
                 .stock(productVariantDTO.getStock())
                 .product(productRepository.findById(productVariantDTO.getProductId())
                         .orElseThrow(() -> {

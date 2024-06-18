@@ -17,6 +17,8 @@ const Filter = () => {
 
   const { data: categories } = useCategoryList();
 
+  console.log(searchParams);
+
   return (
     <div className="mt-12 flex justify-between">
       {/* LEFT */}
@@ -35,7 +37,12 @@ const Filter = () => {
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400 outline-none"
           onChange={handleFilter}
         />
-        <select name="cat" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray">
+        <select
+          name="cat"
+          id=""
+          className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray"
+          onChange={handleFilter}
+        >
           <option>Category</option>
           {categories?.map((category) => (
             <option key={category.id} value={category.id}>

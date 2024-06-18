@@ -7,6 +7,7 @@ import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Category;
 import com.fashion.server.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class CategoryService implements ICategoryService {
 
         boolean changes = false;
 
-        if (categoryDTO.getName() != null && !categoryDTO.getName().equals(existingCategory.getName())) {
+        if (StringUtils.isNotBlank(categoryDTO.getName()) && !categoryDTO.getName().equals(existingCategory.getName())) {
             if (categoryRepository.existsByName(categoryDTO.getName())) {
                 logger.error("Category {} already exists", categoryDTO.getName());
                 throw new DuplicateResourceException("Category [%s] already exists"
@@ -65,7 +66,7 @@ public class CategoryService implements ICategoryService {
             existingCategory.setName(categoryDTO.getName());
             changes = true;
         }
-        if (categoryDTO.getThumbnail() != null
+        if (StringUtils.isNotBlank(categoryDTO.getThumbnail())
                 && !categoryDTO.getThumbnail().equals(existingCategory.getThumbnail())) {
             existingCategory.setThumbnail(categoryDTO.getThumbnail());
             changes = true;

@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/product-variant")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProductVariantController {
 
     private final ProductVariantService productVariantService;
@@ -25,8 +26,8 @@ public class ProductVariantController {
     @GetMapping
     public ResponseEntity<?> getProductVariant(
             @RequestParam(name = "product_id") Integer productId,
-            @RequestParam(defaultValue = "BLACK") Color color,
-            @RequestParam(defaultValue = "SMALL") Size size) {
+            @RequestParam(defaultValue = "") Color color,
+            @RequestParam(defaultValue = "") Size size) {
         List<ProductVariant> productVariant = productVariantService.getProductVariant(productId, color, size);
         return ResponseEntity.ok(productVariant);
     }

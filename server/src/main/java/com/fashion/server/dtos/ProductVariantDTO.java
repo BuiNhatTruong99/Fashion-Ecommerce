@@ -22,16 +22,6 @@ public class ProductVariantDTO {
     @NotNull(message = "Size cannot be blank")
     private Size size;
 
-    @NotNull(message = "Old price cannot be null")
-    @Min(value = 0, message = "Old price must be greater than or equal to 0")
-    @JsonProperty("old_price")
-    private Double oldPrice;
-
-    @NotNull(message = "New price cannot be null")
-    @Min(value = 0, message = "New price must be greater than or equal to 0")
-    @JsonProperty("new_price")
-    private Double newPrice;
-
     @NotNull(message = "Stock cannot be null")
     @Min(value = 0, message = "Stock must be greater than or equal to 0")
     private Integer stock;

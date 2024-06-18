@@ -36,7 +36,7 @@ const ProductList = ({ categoryId, limit, searchParams }: IProductListProps) => 
           </div>
           <div className="flex justify-between">
             <span className="font-medium">{product.name}</span>
-            <span className="font-semibold">$50</span>
+            <span className=" text-primary">${product?.newPrice}</span>
           </div>
           <div className="text-sm text-gray-500 line-clamp-2">{product.description}</div>
           <button className="rounded-2xl ring-1 w-max ring-primary text-primary py-2 px-4 text-xs hover:bg-primary hover:text-white">

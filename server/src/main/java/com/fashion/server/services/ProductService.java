@@ -56,6 +56,8 @@ public class ProductService implements IProductService {
 
         Product newProduct = Product.builder()
                 .name(productDTO.getName())
+                .oldPrice(productDTO.getOldPrice())
+                .newPrice(productDTO.getNewPrice())
                 .description(productDTO.getDescription())
                 .information(productDTO.getInformation())
                 .category(categoryRepository
@@ -94,6 +96,19 @@ public class ProductService implements IProductService {
             existingProduct.setName(productDTO.getName());
             changes = true;
         }
+
+        if (productDTO.getOldPrice() != null
+                && !productDTO.getOldPrice().equals(existingProduct.getOldPrice())) {
+            existingProduct.setOldPrice(productDTO.getOldPrice());
+            changes = true;
+        }
+
+        if (productDTO.getNewPrice() != null
+                && !productDTO.getNewPrice().equals(existingProduct.getNewPrice())) {
+            existingProduct.setNewPrice(productDTO.getNewPrice());
+            changes = true;
+        }
+
         if (productDTO.getDescription() != null
                 && !productDTO.getDescription().equals(existingProduct.getDescription())) {
             existingProduct.setDescription(productDTO.getDescription());

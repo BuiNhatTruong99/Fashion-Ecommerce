@@ -5,7 +5,6 @@ import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Product;
 import com.fashion.server.services.ProductRedisService;
 import com.fashion.server.services.ProductService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,12 +41,7 @@ public class ProductController {
         Sort.Direction direction = sortDirection
                 .equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(direction, sortBy));
-//        List<Product> redisProducts = productRedisService.getProducts(keyword, categoryId, pageRequest);
-//        if (redisProducts == null || redisProducts.isEmpty()) {
-//            Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
-//            List<Product> products = productPage.getContent();
-//            productRedisService.saveProducts(products, keyword, categoryId, pageRequest);
-//        }
+
         Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
         List<Product> products = productPage.getContent();
         return ResponseEntity.ok(products);

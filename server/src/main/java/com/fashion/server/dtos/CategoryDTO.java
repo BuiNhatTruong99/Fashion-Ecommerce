@@ -1,7 +1,6 @@
 package com.fashion.server.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -11,6 +10,6 @@ public class CategoryDTO {
     @Size(min = 3, max = 255, message = "Category name must be between 3 and 255 characters")
     private String name;
 
-    @NotEmpty(message = "Category thumbnail cannot be empty")
+    @NotBlank(message = "Category thumbnail cannot be empty")
     private String thumbnail;
 }

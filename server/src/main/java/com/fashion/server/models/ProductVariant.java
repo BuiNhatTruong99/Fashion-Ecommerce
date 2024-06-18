@@ -23,13 +23,7 @@ public class ProductVariant {
     @Enumerated(EnumType.STRING)
     @Column(name = "size", nullable = false)
     private Size size;
-
-    @Column(name = "old_price", nullable = false)
-    private Double oldPrice;
-
-    @Column(name = "new_price", nullable = false)
-    private Double newPrice;
-
+    
     @Column(name = "stock", nullable = false)
     private Integer stock;
 

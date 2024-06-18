@@ -7,10 +7,13 @@ interface ICategory {
 interface IProduct {
   id: number;
   name: string;
+  oldPrice: number;
+  newPrice: number;
   description: string;
   information: string;
   category: ICategory;
   images: IProductImage[];
+  variants: IProductVariant[];
 }
 
 interface IProductImage {
@@ -22,4 +25,14 @@ interface IProductImagesProps {
   images?: IProductImage[];
 }
 
-export type { ICategory, IProduct, IProductImage, IProductImagesProps };
+interface IProductVariant {
+  id: number;
+  color: string;
+  size: string;
+  price: number;
+  oldPrice: number;
+  newPrice: number;
+  stock: number;
+}
+
+export type { ICategory, IProduct, IProductImage, IProductImagesProps, IProductVariant };

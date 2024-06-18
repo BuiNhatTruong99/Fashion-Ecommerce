@@ -1,6 +1,5 @@
 'use client';
 
-import AddProduct from '@/components/AddProduct';
 import ProductImages from '@/components/ProductImages';
 import ProductOptions from '@/components/ProductOptions';
 import { useProductDetail } from '@/queries/product';
@@ -19,10 +18,12 @@ const SinglePage = ({ params }: { params: { id: number } }) => {
         <h1 className="text-4xl font-medium">{product?.name}</h1>
         <p className="text-gray-500">{product?.description}</p>
         <div className="h-[2px] bg-gray-100" />
-        <div className="font-medium text-2xl">$99</div>
+        <div className="flex items-center gap-4">
+          <h3 className="text-xl text-gray-500 line-through">${product?.oldPrice}</h3>
+          <h2 className="font-medium text-2xl text-primary">${product?.newPrice}</h2>
+        </div>
         <div className="h-[2px] bg-gray-100" />
-        <ProductOptions />
-        <AddProduct />
+        <ProductOptions variants={product?.variants ?? []} productId={params.id} />
         <div className="h-[2px] bg-gray-100" />
         <div className="text-sm">
           <h4 className="font-medium mb-4">Product Information</h4>
