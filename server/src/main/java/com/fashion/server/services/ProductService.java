@@ -40,8 +40,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<Product> getAllProducts(String keyword, Integer categoryId, PageRequest pageRequest) {
-        return productRepository.searchProduct(keyword, categoryId, pageRequest);
+    public Page<Product> getAllProducts(String keyword, Integer categoryId, Double minPrice, Double maxPrice, PageRequest pageRequest) {
+        return productRepository.searchProduct(keyword, categoryId, minPrice, maxPrice, pageRequest);
     }
 
 

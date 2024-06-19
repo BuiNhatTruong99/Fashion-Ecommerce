@@ -7,14 +7,12 @@ export const getProducts = async ({ categoryId, limit, searchParams }: IProductL
   try {
     const params: any = {
       category_id: categoryId == 1 ? null : categoryId,
-      limit
+      limit,
+      sortBy: searchParams?.sort?.split('_')[0] ?? 'updatedAt',
+      sortDirection: searchParams?.sort?.split('_')[1] ?? 'DESC',
+      minPrice: searchParams?.min ?? 0,
+      maxPrice: searchParams?.max ?? 10000
     };
-
-    if (searchParams?.sort) {
-      const [sortBy, sortDirection] = searchParams.sort.split('_');
-      params.sortBy = sortBy;
-      params.sortDirection = sortDirection;
-    }
 
     const response = await HttpClient.get<IProduct[], any>(EndPoints.product.getProducts, { params });
     return response;

@@ -35,6 +35,8 @@ public class ProductController {
             @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") double minPrice,
+            @RequestParam(defaultValue = "10000") double maxPrice,
             @RequestParam(defaultValue = "updatedAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortDirection
     ) {
@@ -42,7 +44,7 @@ public class ProductController {
                 .equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(direction, sortBy));
 
-        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, minPrice, maxPrice, pageRequest);
         List<Product> products = productPage.getContent();
         return ResponseEntity.ok(products);
     }

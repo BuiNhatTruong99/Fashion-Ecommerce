@@ -13,10 +13,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE " +
             "(:categoryId IS NULL OR :categoryId = 0 OR p.category.id = :categoryId) " +
-            "AND(:keyword IS NULL OR :keyword = '' OR p.name LIKE %:keyword% OR p.description LIKE %:keyword%)")
+            "AND(:keyword IS NULL OR :keyword = '' OR p.name LIKE %:keyword% OR p.description LIKE %:keyword%) " +
+            "AND (:minPrice IS NULL OR :minPrice = 0 OR p.newPrice >= :minPrice) " +
+            "AND (:maxPrice IS NULL OR :maxPrice = 0 or p.newPrice <= :maxPrice)")
     Page<Product> searchProduct(
             @Param("keyword") String keyword,
             @Param("categoryId") Integer categoryId,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
             PageRequest pageRequest
     );
 }

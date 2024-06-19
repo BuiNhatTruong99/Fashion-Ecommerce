@@ -3,6 +3,16 @@
 import { useCategoryList } from '@/queries';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+const debounce = (func: Function, delay: number) => {
+  let timer: NodeJS.Timeout;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
+
 const Filter = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -15,9 +25,11 @@ const Filter = () => {
     replace(`${pathname}?${params.toString()}`);
   };
 
-  const { data: categories } = useCategoryList();
+  const debouncedHandleFilter = debounce((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    handleFilter(e);
+  }, 500);
 
-  console.log(searchParams);
+  const { data: categories } = useCategoryList();
 
   return (
     <div className="mt-12 flex justify-between">
@@ -28,20 +40,20 @@ const Filter = () => {
           name="min"
           placeholder="min price"
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400 outline-none"
-          onChange={handleFilter}
+          onChange={debouncedHandleFilter}
         />
         <input
           type="text"
           name="max"
           placeholder="max price"
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400 outline-none"
-          onChange={handleFilter}
+          onChange={debouncedHandleFilter}
         />
         <select
           name="cat"
           id=""
           className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray"
-          onChange={handleFilter}
+          onChange={debouncedHandleFilter}
         >
           <option>Category</option>
           {categories?.map((category) => (
@@ -58,11 +70,11 @@ const Filter = () => {
             name="sort"
             id=""
             className="py-2 px-4 rounded-2xl text-xs font-medium bg-white ring-1 ring-gray-400 "
-            onChange={handleFilter}
+            onChange={debouncedHandleFilter}
           >
             <option>Sort By</option>
-            <option value="price_ASC">Price (low to high)</option>
-            <option value="price_DESC">Price (high to low)</option>
+            <option value="newPrice_ASC">Price (low to high)</option>
+            <option value="newPrice_DESC">Price (high to low)</option>
             <option value="updatedAt_DESC">Newest</option>
             <option value="updatedAt_ASC">Oldest</option>
           </select>
