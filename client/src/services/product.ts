@@ -11,7 +11,8 @@ export const getProducts = async ({ categoryId, limit, searchParams }: IProductL
       sortBy: searchParams?.sort?.split('_')[0] ?? 'updatedAt',
       sortDirection: searchParams?.sort?.split('_')[1] ?? 'DESC',
       minPrice: searchParams?.min ?? 0,
-      maxPrice: searchParams?.max ?? 10000
+      maxPrice: searchParams?.max ?? 10000,
+      keyword: searchParams?.key ?? ''
     };
 
     const response = await HttpClient.get<IProduct[], any>(EndPoints.product.getProducts, { params });

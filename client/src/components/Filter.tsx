@@ -55,7 +55,6 @@ const Filter = () => {
           className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray"
           onChange={debouncedHandleFilter}
         >
-          <option>Category</option>
           {categories?.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}

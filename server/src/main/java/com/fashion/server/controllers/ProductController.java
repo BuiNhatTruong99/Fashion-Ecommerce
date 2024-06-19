@@ -5,6 +5,7 @@ import com.fashion.server.exception.ResourceNotFoundException;
 import com.fashion.server.models.Product;
 import com.fashion.server.services.ProductRedisService;
 import com.fashion.server.services.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,18 +36,27 @@ public class ProductController {
             @RequestParam(defaultValue = "0", name = "category_id") Integer categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") double minPrice,
-            @RequestParam(defaultValue = "10000") double maxPrice,
+            @RequestParam(defaultValue = "0") Double minPrice,
+            @RequestParam(defaultValue = "10000") Double maxPrice,
             @RequestParam(defaultValue = "updatedAt") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortDirection
-    ) {
+    ) throws JsonProcessingException {
         Sort.Direction direction = sortDirection
                 .equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC;
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(direction, sortBy));
 
-        Page<Product> productPage = productService.getAllProducts(keyword, categoryId, minPrice, maxPrice, pageRequest);
-        List<Product> products = productPage.getContent();
-        return ResponseEntity.ok(products);
+        List<Product> redisProducts = productRedisService
+                .getProducts(keyword, categoryId, minPrice, maxPrice, pageRequest);
+        if (redisProducts == null || redisProducts.isEmpty()) {
+            Page<Product> productPage = productService
+                    .getAllProducts(keyword, categoryId, minPrice, maxPrice, pageRequest);
+            List<Product> products = productPage.getContent();
+            productRedisService.saveProducts(products, keyword, categoryId, minPrice, maxPrice, pageRequest);
+
+            return ResponseEntity.ok(products);
+        }
+
+        return ResponseEntity.ok(redisProducts);
     }
 
     @GetMapping("/{productID}")

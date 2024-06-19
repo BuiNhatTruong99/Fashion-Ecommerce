@@ -15,7 +15,11 @@ public interface IProductRedisService {
      * @param pageRequest the pagination information
      * @return a list of products matching the criteria
      */
-    List<Product> getProducts(String keyword, Integer categoryId, PageRequest pageRequest) throws JsonProcessingException;
+    List<Product> getProducts(String keyword,
+                              Integer categoryId,
+                              Double minPrice,
+                              Double maxPrice,
+                              PageRequest pageRequest) throws JsonProcessingException;
 
     /**
      * Saves a list of products associated with the given keyword, category ID, and pagination information.
@@ -25,7 +29,11 @@ public interface IProductRedisService {
      * @param categoryId  the category ID associated with the products
      * @param pageRequest the pagination information
      */
-    void saveProducts(List<Product> products, String keyword, Integer categoryId, PageRequest pageRequest) throws JsonProcessingException;
+    void saveProducts(List<Product> products, String keyword,
+                      Integer categoryId,
+                      Double minPrice,
+                      Double maxPrice,
+                      PageRequest pageRequest) throws JsonProcessingException;
 
     /**
      * Clears all cached products.
