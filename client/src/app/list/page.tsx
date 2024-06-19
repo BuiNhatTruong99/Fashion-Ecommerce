@@ -1,8 +1,10 @@
 import Filter from '@/components/Filter';
 import ProductList from '@/components/ProductList';
+import Skeleton from '@/components/Skeleton';
 import Image from 'next/image';
+import { Suspense } from 'react';
 
-const SinglePage = () => {
+const SinglePage = ({ searchParams }: { searchParams: any }) => {
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative">
       <div className="hidden bg-pink-50 px-4 sm:flex justify-between h-64">
@@ -19,7 +21,9 @@ const SinglePage = () => {
       </div>
       <Filter />
       <h1 className="mt-12 text-xl font-semibold">Suggest for you</h1>
-      <ProductList />
+      <Suspense fallback={<Skeleton />}>
+        <ProductList categoryId={searchParams.cat} searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 };

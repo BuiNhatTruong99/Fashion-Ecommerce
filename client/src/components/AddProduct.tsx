@@ -2,10 +2,14 @@
 
 import { useState } from 'react';
 
-const AddProduct = () => {
+interface AddProductProps {
+  stockQuantity: number;
+}
+
+const AddProduct: React.FC<AddProductProps> = ({ stockQuantity }) => {
   const [quantity, setQuantity] = useState(0);
 
-  const stock = 4;
+  const stock = stockQuantity;
 
   const handleQuantity = (type: 'i' | 'd') => {
     if (type === 'd' && quantity > 1) {

@@ -1,6 +1,36 @@
 'use client';
 
+import { useCategoryList } from '@/queries';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+const debounce = (func: Function, delay: number) => {
+  let timer: NodeJS.Timeout;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
+
 const Filter = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    const params = new URLSearchParams(searchParams);
+    params.set(name, value);
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const debouncedHandleFilter = debounce((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    handleFilter(e);
+  }, 500);
+
+  const { data: categories } = useCategoryList();
+
   return (
     <div className="mt-12 flex justify-between">
       {/* LEFT */}
@@ -10,38 +40,42 @@ const Filter = () => {
           name="min"
           placeholder="min price"
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400 outline-none"
+          onChange={debouncedHandleFilter}
         />
         <input
           type="text"
           name="max"
           placeholder="max price"
           className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400 outline-none"
+          onChange={debouncedHandleFilter}
         />
-        <select name="size" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray">
-          <option>Size</option>
-          <option value="">Size</option>
-        </select>
-        <select name="color" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray">
-          <option>Color</option>
-          <option value="">Color</option>
-        </select>
-        <select name="category" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray">
-          <option>Category</option>
-          <option value="">Category</option>
-        </select>
-        <select name="" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray">
-          <option>All Filters</option>
+        <select
+          name="cat"
+          id=""
+          className="py-2 px-4 rounded-2xl text-xs font-medium bg-filter_gray"
+          onChange={debouncedHandleFilter}
+        >
+          {categories?.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
       {/* RIGHT */}
       <div className="">
         <div className="">
-          <select name="" id="" className="py-2 px-4 rounded-2xl text-xs font-medium bg-white ring-1 ring-gray-400 ">
+          <select
+            name="sort"
+            id=""
+            className="py-2 px-4 rounded-2xl text-xs font-medium bg-white ring-1 ring-gray-400 "
+            onChange={debouncedHandleFilter}
+          >
             <option>Sort By</option>
-            <option value="">Price (low to hight)</option>
-            <option value="">Price (hight to low)</option>
-            <option value="">Newest</option>
-            <option value="">Oldest</option>
+            <option value="newPrice_ASC">Price (low to high)</option>
+            <option value="newPrice_DESC">Price (high to low)</option>
+            <option value="updatedAt_DESC">Newest</option>
+            <option value="updatedAt_ASC">Oldest</option>
           </select>
         </div>
       </div>

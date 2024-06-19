@@ -15,6 +15,9 @@ const config: Config = {
       colors: {
         primary: '#F35C7A',
         filter_gray: '#EBEDED'
+      },
+      scrollBehavior: {
+        smooth: 'smooth'
       }
     }
   },
