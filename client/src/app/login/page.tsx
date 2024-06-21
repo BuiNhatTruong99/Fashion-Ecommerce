@@ -26,7 +26,8 @@ const buttonTitle = {
 const LoginPage = () => {
   const [mode, setMode] = useState(MODE.LOGIN);
 
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailCode, setEmailCode] = useState('');
@@ -34,21 +35,38 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+  };
+
   return (
     <div className="h-[calc(100vh-80px)] px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 flex items-center justify-center">
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-semibold">{formTitle[mode]}</h1>
         {mode === MODE.REGISTER ? (
-          <div className="flex flex-col gap-2">
-            <label className="text-sm text-gray-700">Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="john"
-              className="ring-2 ring-gray-300 rounded-md p-4"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+          <>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm text-gray-700">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="john"
+                className="ring-2 ring-gray-300 rounded-md p-4"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm text-gray-700">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Snow"
+                className="ring-2 ring-gray-300 rounded-md p-4"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          </>
         ) : null}
         {mode !== MODE.EMAIL_VERIFICATION ? (
           <div className="flex flex-col gap-2">
