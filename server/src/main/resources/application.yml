@@ -29,6 +29,9 @@ cloudinary:
   cloud_name: ${CLOUDINARY_CLOUD_NAME}
   api_key: ${CLOUDINARY_API_KEY}
   api_secret: ${CLOUDINARY_API_SECRET}
-  
+
 jwt:
   secret_key: ${JWT_SECRET_KEY}
+
+client:
+  url: ${CLIENT_URL}

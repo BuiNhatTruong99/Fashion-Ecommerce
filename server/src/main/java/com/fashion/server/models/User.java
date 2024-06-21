@@ -28,7 +28,7 @@ public class User extends BaseModel implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phone", nullable = false, unique = true)
+    @Column(name = "phone")
     private String phone;
 
     @Column(name = "first_name", nullable = false)
