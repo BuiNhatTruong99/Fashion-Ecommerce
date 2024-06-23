@@ -1,11 +1,12 @@
 package com.fashion.server.services;
 
 import com.fashion.server.dtos.AuthenticationResponse;
+import com.fashion.server.dtos.EmailRequest;
 import com.fashion.server.dtos.UserLoginDTO;
-import com.fashion.server.dtos.UserRegisterDTO;
 
 public interface IUserService {
-    AuthenticationResponse register(UserRegisterDTO userRegisterDTO);
+    String register(EmailRequest email);
 
     AuthenticationResponse login(UserLoginDTO userLoginDTO);
+
 }

@@ -6,6 +6,10 @@ const EndPoints = {
     getProducts: '/products',
     getProductDetail: (id: number) => `/products/${id}`,
     getProductVariants: `/product-variant`
+  },
+  auth: {
+    login: '/authentication/sign-in',
+    register: '/authentication/sign-up'
   }
 };
 
