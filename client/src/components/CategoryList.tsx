@@ -1,11 +1,20 @@
-'use client';
+"use client";
 
-import { useCategoryList } from '@/queries';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useMessage } from "@/hooks/useMessage";
+import { useCategoryList } from "@/queries";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect } from "react";
 
 const CategoryList = () => {
-  const { data: categories } = useCategoryList();
+  const { data: categories, error } = useCategoryList();
+  const message = useMessage();
+
+  useEffect(() => {
+    if (error) {
+      message.error("Something went wrong! Please check network again");
+    }
+  }, [error, message]);
 
   return (
     <div className="px-4 overflow-x-scroll scrollbar-hide">
@@ -17,9 +26,17 @@ const CategoryList = () => {
             key={category.id}
           >
             <div className="relative bg-slate-100 w-full h-96">
-              <Image src={category.thumbnail} alt={category.thumbnail} fill sizes="20vw" className="object-cover" />
+              <Image
+                src={category.thumbnail}
+                alt={category.thumbnail}
+                fill
+                sizes="20vw"
+                className="object-cover"
+              />
             </div>
-            <h1 className="mt-4 font-light text-cl tracking-wide">{category.name}</h1>
+            <h1 className="mt-4 font-light text-cl tracking-wide">
+              {category.name}
+            </h1>
           </Link>
         ))}
       </div>
