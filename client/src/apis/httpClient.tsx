@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 const HttpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 HttpClient.interceptors.request.use(
@@ -21,7 +21,13 @@ HttpClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    return Promise.reject(error);
+    if (error.code === "ERR_NETWORK" || error.code === "ERR_BAD_RESPONSE") {
+      throw new Error("Something went wrong! Please check network again");
+    }
+    return Promise.reject(
+      error.response?.data ||
+        "Something went wrong! Please check network again."
+    );
   }
 );
 

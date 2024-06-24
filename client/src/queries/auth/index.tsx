@@ -1,13 +1,22 @@
-import { IAuthResponse, IEmailVerification, ISignIn, ISignUp } from '@/domains/auth.domain';
-import { emailVerificationService, signInService, signUpService } from '@/services';
-import { useMutation } from '@tanstack/react-query';
-import { QUERIES_KEY } from '../key';
-import { IApiDataResponse } from '@/domains/data.domain';
+import {
+  IAuthResponse,
+  IEmailVerification,
+  ISignIn,
+  ISignUp,
+  IApiDataResponse,
+} from "@/domains";
+import {
+  emailVerificationService,
+  signInService,
+  signUpService,
+} from "@/services";
+import { useMutation } from "@tanstack/react-query";
+import { QUERIES_KEY } from "../key";
 
 export const useSignInMutation = () => {
   return useMutation<IApiDataResponse<IAuthResponse>, string, any>({
     mutationKey: [QUERIES_KEY.AUTH.SIGN_IN],
-    mutationFn: (value: ISignIn) => signInService(value)
+    mutationFn: (value: ISignIn) => signInService(value),
   });
 };
 
@@ -21,6 +30,6 @@ export const useSignUpMutation = () => {
 export const useEmailVerificationMutation = () => {
   return useMutation<IApiDataResponse<IAuthResponse>, string, any>({
     mutationKey: [QUERIES_KEY.AUTH.EMAIL_VERIFICATION],
-    mutationFn: (value: IEmailVerification) => emailVerificationService(value)
+    mutationFn: (value: IEmailVerification) => emailVerificationService(value),
   });
 };
