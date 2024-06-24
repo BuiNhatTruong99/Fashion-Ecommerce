@@ -8,6 +8,8 @@ import { SignInSchema, TSignInSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignInMutation } from '@/queries/auth';
 import { ISignIn } from '@/domains/auth.domain';
+import { useAuthStore } from '@/stores';
+import { HttpStatusCode } from 'axios';
 
 const SignInForm = () => {
   const {
@@ -19,6 +21,10 @@ const SignInForm = () => {
     mode: 'all'
   });
 
+  const { userInfo, accessToken } = useAuthStore();
+
+  console.log(userInfo, accessToken);
+
   const { mutate, isPending } = useSignInMutation();
 
   const [error, setError] = useState('');
@@ -28,7 +34,8 @@ const SignInForm = () => {
     (value: ISignIn) => {
       mutate(value, {
         onSuccess: (res) => {
-          alert(JSON.stringify(res.accessToken));
+          if (res.status === HttpStatusCode.Ok) {
+          }
         }
       });
     },

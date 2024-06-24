@@ -33,6 +33,7 @@ public class EmailService implements EmailSender {
                     "<h2 style='color: #4CAF50;'>Your OTP Code: <strong style='font-size: 24px; color: #000;'>" + otp + "</strong></h2>" +
                     "<p style='font-size: 16px;'>Hello Friend,</p>" +
                     "<p style='font-size: 16px;'>Thank you for using our service. Please use the above OTP to complete your verification process.</p>" +
+                    "<p style='font-size: 16px; color: red;'>Note: This OTP is valid for 15 minutes.</p>" +
                     "<p style='font-size: 16px;'>If you did not request this OTP, please ignore this email.</p>" +
                     "<p style='font-size: 16px;'>Best regards,</p>" +
                     "<p style='font-size: 16px;'>The Fashion Store Team</p>" +

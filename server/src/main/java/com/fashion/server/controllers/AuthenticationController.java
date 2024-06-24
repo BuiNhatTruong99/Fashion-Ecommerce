@@ -1,15 +1,11 @@
 package com.fashion.server.controllers;
 
-import com.fashion.server.dtos.AuthenticationResponse;
-import com.fashion.server.dtos.EmailRequest;
-import com.fashion.server.dtos.UserLoginDTO;
-import com.fashion.server.dtos.UserRegisterDTO;
+import com.fashion.server.dtos.*;
 import com.fashion.server.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +36,8 @@ public class AuthenticationController {
                     .toList();
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        String response = userService.register(email);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        userService.register(email);
+        return new ResponseEntity<>("Otp sent", HttpStatus.CREATED);
     }
 
     @PostMapping("/sign-in")
@@ -57,8 +53,38 @@ public class AuthenticationController {
                     .toList();
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        AuthenticationResponse response = userService.login(userLoginDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        SignInResponse response = userService.login(userLoginDTO);
+        ApiDataResponse apiDataResponse = ApiDataResponse
+                .builder()
+                .status(HttpStatus.OK.value())
+                .data(response)
+                .message("Login successful")
+                .build();
+        return new ResponseEntity<>(apiDataResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/email-verification")
+    public ResponseEntity<?> verificationEmail(
+            @Valid
+            @RequestBody
+            UserRegisterDTO userRegisterDTO,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(FieldError::getDefaultMessage)
+                    .toList();
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        SignUpResponse signUpResponse = userService.verificationEmail(userRegisterDTO);
+        ApiDataResponse apiDataResponse = ApiDataResponse
+                .builder()
+                .status(HttpStatus.OK.value())
+                .data(signUpResponse)
+                .message("Email sent")
+                .build();
+        return new ResponseEntity<>(apiDataResponse, HttpStatus.OK);
     }
 
 }

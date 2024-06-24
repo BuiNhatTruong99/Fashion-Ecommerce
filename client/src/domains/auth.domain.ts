@@ -1,4 +1,5 @@
 interface IAuthResponse {
+  userInfo: IUserInfo;
   accessToken: string;
 }
 
@@ -8,9 +9,20 @@ interface ISignIn {
 }
 
 interface ISignUp {
-  fullName: string;
   email: string;
-  password: string;
 }
 
-export type { IAuthResponse, ISignIn, ISignUp };
+interface IEmailVerification {
+  email: string;
+  fullName: string;
+  password: string;
+  otp: string;
+}
+
+interface IUserInfo {
+  email: string;
+  fullName: string;
+  phone: string;
+}
+
+export type { IAuthResponse, ISignIn, ISignUp, IEmailVerification, IUserInfo };

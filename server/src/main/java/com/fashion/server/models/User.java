@@ -31,11 +31,8 @@ public class User extends BaseModel implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)

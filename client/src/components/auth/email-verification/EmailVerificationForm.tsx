@@ -6,6 +6,11 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { EmailVerificationSchema, TEmailVerificationSchema } from './validSchema';
 import { useAuthStore } from '@/stores';
+import { useEmailVerificationMutation } from '@/queries/auth';
+import { useRouter } from 'next/navigation';
+import { STATUS_CODES } from 'http';
+import { IEmailVerification } from '@/domains/auth.domain';
+import { HttpStatusCode } from 'axios';
 
 const EmailVerificationForm = () => {
   const {
@@ -17,19 +22,35 @@ const EmailVerificationForm = () => {
     mode: 'all'
   });
 
-  const { userInfo, reset } = useAuthStore();
+  const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const { userInfo, setAccessToken } = useAuthStore();
+  const { mutateAsync, isPending } = useEmailVerificationMutation();
+  const [message, setMessage] = useState<string | undefined>('');
 
   console.log(userInfo);
 
   const onSubmit = useCallback(
     (value: any) => {
-      reset();
+      const requestBody = {
+        ...userInfo,
+        otp: value.verificationCode
+      };
+
+      mutateAsync(requestBody, {
+        onSuccess: (res) => {
+          console.log(res);
+
+          if (res.status === HttpStatusCode.Ok) {
+            setAccessToken(res.data.accessToken);
+            router.push('/auth/sign-in');
+          }
+
+          setMessage(res?.message);
+        }
+      });
     },
-    [reset]
+    [mutateAsync, setAccessToken, router, userInfo]
   );
 
   return (
@@ -44,26 +65,14 @@ const EmailVerificationForm = () => {
         />
       </div>
 
-      {/* <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-700">Verification Code</label>
-          <input
-            type="text"
-            name="emailCode"
-            placeholder="Code"
-            className="ring-2 ring-gray-300 rounded-md p-4"
-            onChange={(e) => setEmailCode(e.target.value)}
-          />
-        </div> */}
-
       <button
         className="bg-primary text-white p-2 rounded-md disabled:bg-pink-200 disabled:cursor-not-allowed"
-        disabled={isLoading}
+        disabled={isPending}
       >
-        {isLoading ? 'Loading...' : 'Submit'}
+        {isPending ? 'Loading...' : 'Submit'}
       </button>
-      {error && <div className="text-red-600">{error}</div>}
 
-      {message && <div className="text-green-600 text-sm">{message}</div>}
+      {message && <div className="text-primary text-md font-bold">{message}</div>}
     </form>
   );
 };

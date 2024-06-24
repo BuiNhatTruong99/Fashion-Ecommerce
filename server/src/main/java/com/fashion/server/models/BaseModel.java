@@ -4,9 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 @MappedSuperclass
 public class BaseModel {
     @Column(name = "created_at")

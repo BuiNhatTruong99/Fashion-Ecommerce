@@ -2,6 +2,7 @@ import CategoryList from '@/components/CategoryList';
 import ProductList from '@/components/ProductList';
 import Skeleton from '@/components/Skeleton';
 import Slider from '@/components/Slider';
+import { useAuthStore } from '@/stores';
 import { Suspense } from 'react';
 
 export default function Home() {

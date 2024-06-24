@@ -1,11 +1,11 @@
-import { ISignUp } from '@/domains/auth.domain';
+import { ISignUp, IUserInfo } from '@/domains/auth.domain';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface IAuthState {
-  userInfo?: ISignUp;
+  userInfo?: IUserInfo;
   accessToken?: string;
-  setUserInfo: (userInfo: ISignUp) => void;
+  setUserInfo: (userInfo: IUserInfo) => void;
   setAccessToken: (accessToken: string) => void;
   reset: () => void;
 }
@@ -15,7 +15,7 @@ export const useAuthStore = create<IAuthState>()(
     (set) => ({
       userInfo: undefined,
       accessToken: undefined,
-      setUserInfo: (userInfo: ISignUp) => set({ userInfo }),
+      setUserInfo: (userInfo: IUserInfo) => set({ userInfo }),
       setAccessToken: (accessToken: string) => set({ accessToken }),
       reset: () => set({ userInfo: undefined, accessToken: undefined })
     }),

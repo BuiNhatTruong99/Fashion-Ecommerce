@@ -7,6 +7,8 @@ import { SignUpSchema, TSignUpSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores';
+import { useSignUpMutation } from '@/queries/auth';
+import { HttpStatusCode } from 'axios';
 
 const SignUpForm = () => {
   const {
@@ -21,17 +23,23 @@ const SignUpForm = () => {
   const router = useRouter();
 
   const { setUserInfo } = useAuthStore();
+  const { mutateAsync, isPending } = useSignUpMutation();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
 
   const onSubmit = useCallback(
     (value: any) => {
-      setUserInfo(value);
-      router.push('/auth/email-verification');
+      mutateAsync(value, {
+        onSuccess: () => {
+          setUserInfo(value);
+          router.push('/auth/email-verification');
+        },
+        onError: (err) => {
+          setError(err);
+        }
+      });
     },
-    [router, setUserInfo]
+    [router, setUserInfo, mutateAsync]
   );
 
   return (
@@ -54,13 +62,12 @@ const SignUpForm = () => {
         </div>
         <button
           className="bg-primary text-white p-2 rounded-md disabled:bg-pink-200 disabled:cursor-not-allowed"
-          //   disabled={isLoading}
+          disabled={isPending}
         >
-          {isLoading ? 'Loading...' : 'Sign Up'}
+          {isPending ? 'Loading...' : 'Sign Up'}
         </button>
         {error && <div className="text-red-600">{error}</div>}
       </form>
-      {message && <div className="text-green-600 text-sm">{message}</div>}
     </div>
   );
 };

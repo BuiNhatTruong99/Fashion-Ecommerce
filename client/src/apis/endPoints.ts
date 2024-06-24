@@ -8,8 +8,9 @@ const EndPoints = {
     getProductVariants: `/product-variant`
   },
   auth: {
-    login: '/authentication/sign-in',
-    register: '/authentication/sign-up'
+    signIn: '/authentication/sign-in',
+    signUp: '/authentication/sign-up',
+    emailVerification: '/authentication/email-verification'
   }
 };
 
