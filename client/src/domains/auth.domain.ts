@@ -1,11 +1,10 @@
-interface IAuthResponse {
-  userInfo: IUserInfo;
-  accessToken: string;
-}
-
 interface ISignIn {
   email: string;
   password: string;
+}
+
+interface ISignInResponse extends IToken {
+  userInfo: IUserInfo;
 }
 
 interface ISignUp {
@@ -22,7 +21,11 @@ interface IEmailVerification {
 interface IUserInfo {
   email: string;
   fullName: string;
-  phone: string;
+  phone?: string;
 }
 
-export type { IAuthResponse, ISignIn, ISignUp, IEmailVerification, IUserInfo };
+interface IToken {
+  accessToken: string;
+}
+
+export type { ISignIn, ISignInResponse, ISignUp, IEmailVerification, IUserInfo };

@@ -48,10 +48,14 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         var accessToken = jwtService.generateToken(user);
         return SignInResponse.builder()
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .fullName(user.getFullName())
-                .token(accessToken)
+                .userInfo(
+                        UserResponseDTO.builder()
+                                .fullName(user.getFullName())
+                                .email(user.getEmail())
+                                .phone(user.getPhone())
+                                .build()
+                )
+                .accessToken(accessToken)
                 .build();
     }
 
@@ -78,7 +82,7 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public SignUpResponse verificationEmail(UserRegisterDTO userRegisterDTO) {
+    public SignInResponse verificationEmail(UserRegisterDTO userRegisterDTO) {
         Optional<List<VerificationUser>> verificationUserOptional = verificationUserRepository
                 .findByEmail(
                         userRegisterDTO.getEmail()
@@ -107,8 +111,14 @@ public class UserService implements IUserService {
         User user = userRepository.save(newUser);
         verificationUserRepository.deleteAllByEmail(userRegisterDTO.getEmail());
         var accessToken = jwtService.generateToken(user);
-        return SignUpResponse
-                .builder()
+        return SignInResponse.builder()
+                .userInfo(
+                        UserResponseDTO.builder()
+                                .fullName(user.getFullName())
+                                .email(user.getEmail())
+                                .phone(user.getPhone())
+                                .build()
+                )
                 .accessToken(accessToken)
                 .build();
     }

@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores';
 import { useSignUpMutation } from '@/queries/auth';
-import { HttpStatusCode } from 'axios';
+import { useMessage } from '@/hooks/useMessage';
 
 const SignUpForm = () => {
   const {
@@ -24,51 +24,64 @@ const SignUpForm = () => {
 
   const { setUserInfo } = useAuthStore();
   const { mutateAsync, isPending } = useSignUpMutation();
-
-  const [error, setError] = useState('');
+  const message = useMessage();
 
   const onSubmit = useCallback(
     (value: any) => {
+      const userData = {
+        fullName: value.fullName,
+        email: value.email,
+        password: value.password
+      };
       mutateAsync(value, {
         onSuccess: () => {
-          setUserInfo(value);
+          setUserInfo(userData);
           router.push('/auth/email-verification');
         },
         onError: (err) => {
-          setError(err);
+          message.error(err);
         }
       });
     },
-    [router, setUserInfo, mutateAsync]
+    [router, setUserInfo, mutateAsync, message]
   );
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <InputForm register={register} label="Full Name" type="text" name="fullName" errorField={errors.fullName} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <InputForm register={register} label="Email" type="email" name="email" errorField={errors.email} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <InputForm
-            register={register}
-            label="Password"
-            type="password"
-            name="password"
-            errorField={errors.password}
-          />
-        </div>
-        <button
-          className="bg-primary text-white p-2 rounded-md disabled:bg-pink-200 disabled:cursor-not-allowed"
-          disabled={isPending}
-        >
-          {isPending ? 'Loading...' : 'Sign Up'}
-        </button>
-        {error && <div className="text-red-600">{error}</div>}
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <InputForm
+          register={register}
+          label="Full Name"
+          type="text"
+          name="fullName"
+          errorField={errors.fullName}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <InputForm
+          register={register}
+          label="Email"
+          type="email"
+          name="email"
+          errorField={errors.email}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <InputForm
+          register={register}
+          label="Password"
+          type="password"
+          name="password"
+          errorField={errors.password}
+        />
+      </div>
+      <button
+        className="bg-primary text-white p-2 rounded-md disabled:bg-pink-200 disabled:cursor-not-allowed"
+        disabled={isPending}
+      >
+        {isPending ? 'Loading...' : 'Sign Up'}
+      </button>
+    </form>
   );
 };
 

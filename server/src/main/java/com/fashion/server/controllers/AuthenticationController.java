@@ -77,7 +77,7 @@ public class AuthenticationController {
                     .toList();
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-        SignUpResponse signUpResponse = userService.verificationEmail(userRegisterDTO);
+        SignInResponse signUpResponse = userService.verificationEmail(userRegisterDTO);
         ApiDataResponse apiDataResponse = ApiDataResponse
                 .builder()
                 .status(HttpStatus.OK.value())

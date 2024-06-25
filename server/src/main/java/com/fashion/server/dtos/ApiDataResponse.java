@@ -10,6 +10,5 @@ import java.time.LocalDateTime;
 public class ApiDataResponse {
     private int status;
     private Object data;
-    private LocalDateTime localDateTime;
     private String message;
 }

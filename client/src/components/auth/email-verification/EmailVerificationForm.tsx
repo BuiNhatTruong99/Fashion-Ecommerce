@@ -8,9 +8,7 @@ import { EmailVerificationSchema, TEmailVerificationSchema } from './validSchema
 import { useAuthStore } from '@/stores';
 import { useEmailVerificationMutation } from '@/queries/auth';
 import { useRouter } from 'next/navigation';
-import { STATUS_CODES } from 'http';
-import { IEmailVerification } from '@/domains/auth.domain';
-import { HttpStatusCode } from 'axios';
+import { useMessage } from '@/hooks/useMessage';
 
 const EmailVerificationForm = () => {
   const {
@@ -23,12 +21,10 @@ const EmailVerificationForm = () => {
   });
 
   const router = useRouter();
+  const message = useMessage();
 
-  const { userInfo, setAccessToken } = useAuthStore();
+  const { userInfo, setAccessToken, setUserInfo, reset } = useAuthStore();
   const { mutateAsync, isPending } = useEmailVerificationMutation();
-  const [message, setMessage] = useState<string | undefined>('');
-
-  console.log(userInfo);
 
   const onSubmit = useCallback(
     (value: any) => {
@@ -36,21 +32,20 @@ const EmailVerificationForm = () => {
         ...userInfo,
         otp: value.verificationCode
       };
-
       mutateAsync(requestBody, {
         onSuccess: (res) => {
-          console.log(res);
+          reset();
+          setAccessToken(res.data.accessToken);
+          setUserInfo(res.data.userInfo);
+          router.push('/');
+        },
 
-          if (res.status === HttpStatusCode.Ok) {
-            setAccessToken(res.data.accessToken);
-            router.push('/auth/sign-in');
-          }
-
-          setMessage(res?.message);
+        onError: (err) => {
+          message.error(err);
         }
       });
     },
-    [mutateAsync, setAccessToken, router, userInfo]
+    [mutateAsync, setAccessToken, userInfo, message, reset, setUserInfo, router]
   );
 
   return (
@@ -71,8 +66,6 @@ const EmailVerificationForm = () => {
       >
         {isPending ? 'Loading...' : 'Submit'}
       </button>
-
-      {message && <div className="text-primary text-md font-bold">{message}</div>}
     </form>
   );
 };

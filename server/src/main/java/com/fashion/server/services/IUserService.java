@@ -7,6 +7,6 @@ public interface IUserService {
 
     SignInResponse login(UserLoginDTO userLoginDTO);
 
-    SignUpResponse verificationEmail(UserRegisterDTO userRegisterDTO);
+    SignInResponse verificationEmail(UserRegisterDTO userRegisterDTO);
 
 }

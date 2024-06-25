@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class SignInResponse {
-    private String email;
-    private String phone;
-    private String fullName;
-    private String token;
+    private UserResponseDTO userInfo;
+    private String accessToken;
 }

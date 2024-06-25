@@ -2,14 +2,15 @@
 
 import InputForm from '@/components/Input';
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { SignInSchema, TSignInSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignInMutation } from '@/queries/auth';
 import { ISignIn } from '@/domains/auth.domain';
 import { useAuthStore } from '@/stores';
-import { HttpStatusCode } from 'axios';
+import { useMessage } from '@/hooks/useMessage';
+import { useRouter } from 'next/navigation';
 
 const SignInForm = () => {
   const {
@@ -21,32 +22,40 @@ const SignInForm = () => {
     mode: 'all'
   });
 
-  const { userInfo, accessToken } = useAuthStore();
+  const router = useRouter();
+  const { setUserInfo, setAccessToken, reset } = useAuthStore();
 
-  console.log(userInfo, accessToken);
-
-  const { mutate, isPending } = useSignInMutation();
-
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const { mutateAsync, isPending } = useSignInMutation();
+  const message = useMessage();
 
   const onSubmit = useCallback(
     (value: ISignIn) => {
-      mutate(value, {
+      mutateAsync(value, {
         onSuccess: (res) => {
-          if (res.status === HttpStatusCode.Ok) {
-          }
+          reset();
+          setUserInfo(res.data.userInfo);
+          setAccessToken(res.data.accessToken);
+          router.push('/');
+        },
+        onError: () => {
+          message.error('Email or password is incorrect');
         }
       });
     },
-    [mutate]
+    [mutateAsync, message, setAccessToken, setUserInfo, reset, router]
   );
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <InputForm register={register} label="Email" type="email" name="email" errorField={errors.email} />
+          <InputForm
+            register={register}
+            label="Email"
+            type="email"
+            name="email"
+            errorField={errors.email}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <InputForm
@@ -66,9 +75,7 @@ const SignInForm = () => {
         >
           {isPending ? 'Loading...' : 'Sign In'}
         </button>
-        {error && <div className="text-red-600">{error}</div>}
       </form>
-      {message && <div className="text-green-600 text-sm">{message}</div>}
     </div>
   );
 };

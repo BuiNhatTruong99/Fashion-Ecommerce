@@ -9,7 +9,6 @@ export interface IErrorData {
 export interface IApiDataResponse<T> {
   data: T;
   status?: number;
-  time?: string;
   message?: string;
 }
 export type IApiResponse<T> = AxiosResponse<IApiDataResponse<T>>;

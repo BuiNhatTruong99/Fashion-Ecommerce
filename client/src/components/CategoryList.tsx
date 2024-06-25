@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useMessage } from "@/hooks/useMessage";
-import { useCategoryList } from "@/queries";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect } from "react";
+import { useMessage } from '@/hooks/useMessage';
+import { useCategoryList } from '@/queries';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
 const CategoryList = () => {
   const { data: categories, error } = useCategoryList();
@@ -12,7 +12,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     if (error) {
-      message.error("Something went wrong! Please check network again");
+      message.error('Something went wrong! Please check network again');
     }
   }, [error, message]);
 
@@ -34,9 +34,7 @@ const CategoryList = () => {
                 className="object-cover"
               />
             </div>
-            <h1 className="mt-4 font-light text-cl tracking-wide">
-              {category.name}
-            </h1>
+            <h1 className="mt-4 font-light text-cl tracking-wide">{category.name}</h1>
           </Link>
         ))}
       </div>
