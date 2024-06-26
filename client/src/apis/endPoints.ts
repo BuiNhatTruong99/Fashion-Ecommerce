@@ -10,7 +10,9 @@ const EndPoints = {
   auth: {
     signIn: '/authentication/sign-in',
     signUp: '/authentication/sign-up',
-    emailVerification: '/authentication/email-verification'
+    emailVerification: '/authentication/email-verification',
+    forgotPassword: '/authentication/forgot-password',
+    changePassword: '/authentication/change-password'
   }
 };
 

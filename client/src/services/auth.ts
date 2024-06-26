@@ -1,6 +1,13 @@
 import EndPoints from '@/apis/endPoints';
 import HttpClient from '@/apis/httpClient';
-import { IEmailVerification, ISignIn, ISignUp, IApiDataResponse, ISignInResponse } from '@/domains';
+import {
+  IEmailVerification,
+  ISignIn,
+  ISignUp,
+  IApiDataResponse,
+  ISignInResponse,
+  IChangePassword
+} from '@/domains';
 
 export const signInService = async (value: ISignIn) => {
   return await HttpClient.post<ISignIn, IApiDataResponse<ISignInResponse>>(EndPoints.auth.signIn, {
@@ -25,3 +32,14 @@ export const emailVerificationService = async (value: IEmailVerification) => {
     }
   );
 };
+
+export const forgotPasswordService = async (value: ISignUp) =>
+  await HttpClient.post<ISignUp, any>(EndPoints.auth.forgotPassword, {
+    email: value.email
+  });
+
+export const changePasswordService = async (value: IChangePassword) =>
+  await HttpClient.put<IChangePassword, any>(EndPoints.auth.changePassword, {
+    newPassword: value.password,
+    token: value.token
+  });

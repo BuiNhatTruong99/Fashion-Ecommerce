@@ -1,6 +1,7 @@
 package com.fashion.server.services;
 
 import com.fashion.server.dtos.*;
+import com.fashion.server.exception.TokenExpiredException;
 import com.fashion.server.models.Role;
 import com.fashion.server.models.VerificationUser;
 import com.fashion.server.repositories.VerificationUserRepository;
@@ -121,5 +122,34 @@ public class UserService implements IUserService {
                 )
                 .accessToken(accessToken)
                 .build();
+    }
+
+    @Override
+    public void resetPassword(EmailRequest emailRequest) {
+        Optional<User> userOptional = userRepository.findByEmail(emailRequest.getEmail());
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Email not found");
+        }
+
+        String token = jwtService.generateToken(userOptional.get());
+        emailService.sendResetPasswordLink(emailRequest.getEmail(), token);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequestDTO changePasswordRequest) {
+        try {
+            String userEmail = jwtService.extractUsername(changePasswordRequest.getToken());
+
+            User user = userRepository
+                    .findByEmail(userEmail)
+                    .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+
+            if (jwtService.isTokenValid(changePasswordRequest.getToken(), user)) {
+                user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+                userRepository.save(user);
+            }
+        } catch (Exception e) {
+            throw new TokenExpiredException("Invalid token");
+        }
     }
 }

@@ -1,10 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { TResetPasswordSchema, ResetPasswordSchema } from './validSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputForm from '@/components/Input';
+import { useMessage } from '@/hooks/useMessage';
+import { useForgotPaswordMutation } from '@/queries/auth';
+import { useRouter } from 'next/navigation';
 
 const ResetPasswordForm = () => {
   const {
@@ -16,30 +19,42 @@ const ResetPasswordForm = () => {
     mode: 'all'
   });
 
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const message = useMessage();
 
-  const onSubmit = useCallback((value: any) => {
-    alert(JSON.stringify(value));
-  }, []);
+  const { mutateAsync, isPending } = useForgotPaswordMutation();
+
+  const onSubmit = useCallback(
+    (value: any) => {
+      mutateAsync(value, {
+        onSuccess: () => {
+          message.success('Check your email to reset your password');
+        },
+        onError: (err) => {
+          message.error(err);
+        }
+      });
+    },
+    [message, mutateAsync]
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <InputForm register={register} label="Email" type="email" name="email" errorField={errors.email} />
+        <InputForm
+          register={register}
+          label="Email"
+          type="email"
+          name="email"
+          errorField={errors.email}
+        />
       </div>
 
       <button
         className="bg-primary text-white p-2 rounded-md disabled:bg-pink-200 disabled:cursor-not-allowed"
-        disabled={isLoading}
+        disabled={isPending}
       >
-        {isLoading ? 'Loading...' : 'Reset Password'}
+        {isPending ? 'Loading...' : 'Reset Password'}
       </button>
-      {error && <div className="text-red-600">{error}</div>}
-
-      {message && <div className="text-green-600 text-sm">{message}</div>}
     </form>
   );
 };

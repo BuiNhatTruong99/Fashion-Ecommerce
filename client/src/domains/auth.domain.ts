@@ -18,6 +18,11 @@ interface IEmailVerification {
   otp: string;
 }
 
+interface IChangePassword {
+  password: string;
+  token: string;
+}
+
 interface IUserInfo {
   email: string;
   fullName: string;
@@ -28,4 +33,4 @@ interface IToken {
   accessToken: string;
 }
 
-export type { ISignIn, ISignInResponse, ISignUp, IEmailVerification, IUserInfo };
+export type { ISignIn, ISignInResponse, ISignUp, IEmailVerification, IChangePassword, IUserInfo };
