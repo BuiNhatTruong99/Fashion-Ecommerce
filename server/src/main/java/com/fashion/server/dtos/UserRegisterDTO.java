@@ -10,13 +10,9 @@ import lombok.Data;
 @Data
 public class UserRegisterDTO {
 
-    @NotBlank(message = "First name is required")
-    @Size(min = 3, max = 50, message = "First name must be between 3 and 50 characters")
-    private String firstName;
-
-    @NotBlank(message = "Last name is required")
-    @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters")
-    private String lastName;
+    @NotBlank(message = "Full name is required")
+    @Size(min = 3, max = 50, message = "Full name must be between 3 and 50 characters")
+    private String fullName;
 
     @Email(message = "Email is not valid")
     @NotBlank(message = "Email is required")
@@ -26,6 +22,9 @@ public class UserRegisterDTO {
     @Size(min = 3, max = 50, message = "Password must be between 3 and 50 characters")
     private String password;
 
-    @NotNull(message = "Role is required")
-    private Role role;
+    private Role role = Role.USER;
+
+    @NotBlank(message = "OTP is required")
+    @Size(min = 6, max = 6, message = "OTP must be 6 characters")
+    private String otp;
 }

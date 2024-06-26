@@ -1,11 +1,19 @@
 package com.fashion.server.services;
 
-import com.fashion.server.dtos.AuthenticationResponse;
-import com.fashion.server.dtos.UserLoginDTO;
-import com.fashion.server.dtos.UserRegisterDTO;
+import com.fashion.server.dtos.*;
+import jakarta.mail.MessagingException;
+
+import java.io.UnsupportedEncodingException;
 
 public interface IUserService {
-    AuthenticationResponse register(UserRegisterDTO userRegisterDTO);
+    void register(EmailRequest email) throws MessagingException, UnsupportedEncodingException;
 
-    AuthenticationResponse login(UserLoginDTO userLoginDTO);
+    SignInResponse login(UserLoginDTO userLoginDTO);
+
+    SignInResponse verificationEmail(UserRegisterDTO userRegisterDTO);
+
+    void resetPassword(EmailRequest email);
+
+    void changePassword(ChangePasswordRequestDTO changePasswordRequest);
+
 }

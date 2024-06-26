@@ -1,13 +1,20 @@
-'use client';
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SnackbarUtilsConfiguration } from "@/hooks/useMessageRef";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MaterialDesignContent, SnackbarProvider } from "notistack";
 
 export default function Providers({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const queryClient = new QueryClient();
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <SnackbarProvider preventDuplicate>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <SnackbarUtilsConfiguration />
+    </SnackbarProvider>
+  );
 }
