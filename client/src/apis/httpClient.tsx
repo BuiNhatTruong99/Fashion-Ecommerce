@@ -1,4 +1,5 @@
 import { IErrorData } from '@/domains';
+import { useAuthStore } from '@/stores';
 import axios, { AxiosError } from 'axios';
 
 const HttpClient = axios.create({
@@ -9,8 +10,15 @@ const HttpClient = axios.create({
 });
 
 HttpClient.interceptors.request.use(
-  (config) => {
-    return config;
+  (config: any) => {
+    const { accessToken } = useAuthStore.getState();
+    return {
+      ...config,
+      headers: {
+        ...config.headers,
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
   },
   (error) => {
     return Promise.reject(error);
@@ -30,7 +38,9 @@ HttpClient.interceptors.response.use(
       return Promise.reject(error.response?.data?.message);
     }
 
-    return Promise.reject(error.response?.data || 'Something went wrong! Please check network again.');
+    return Promise.reject(
+      error.response?.data || 'Something went wrong! Please check network again.'
+    );
   }
 );
 

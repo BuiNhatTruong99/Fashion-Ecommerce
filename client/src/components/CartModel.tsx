@@ -1,13 +1,26 @@
 'use client';
 
+import { useCart } from '@/queries/cart';
+import { useAuthStore } from '@/stores';
+import { useCartStore } from '@/stores/cart/cart.store';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 const CartModel = () => {
-  const cartItems = true;
+  const { userInfo } = useAuthStore();
+
+  const { data: cartItems } = useCart(userInfo?.userId as number);
+  const { cart, setCart } = useCartStore();
+
+  useEffect(() => {
+    if (cartItems) {
+      setCart(cartItems);
+    }
+  }, [cartItems, setCart]);
 
   return (
     <div className="w-max absolute p-4 rounded-sm shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white top-12 right-0 flex flex-col gap-6 z-20">
-      {!cartItems ? (
+      {!cart.cartItems ? (
         <div className="">Cart Is Empty</div>
       ) : (
         <>
@@ -47,7 +60,9 @@ const CartModel = () => {
               <span className="">Subtotal</span>
               <span className="">$49</span>
             </div>
-            <p className="text-gray-500 text-sm mt-2 mb-4">Shipping and taxes calculated at checkout</p>
+            <p className="text-gray-500 text-sm mt-2 mb-4">
+              Shipping and taxes calculated at checkout
+            </p>
             <div className="flex justify-between text-sm">
               <button className="rounded-md py-3 px-4 ring-1 ring-gray-300">View Cart</button>
               <button className="rounded-md py-3 px-4 bg-black text-white">Check Out</button>

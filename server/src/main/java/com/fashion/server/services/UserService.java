@@ -2,8 +2,10 @@ package com.fashion.server.services;
 
 import com.fashion.server.dtos.*;
 import com.fashion.server.exception.TokenExpiredException;
+import com.fashion.server.models.Cart;
 import com.fashion.server.models.Role;
 import com.fashion.server.models.VerificationUser;
+import com.fashion.server.repositories.CartRepository;
 import com.fashion.server.repositories.VerificationUserRepository;
 import com.fashion.server.utils.GenderUtil;
 import com.fashion.server.utils.email.EmailService;
@@ -36,6 +38,8 @@ public class UserService implements IUserService {
     private final VerificationUserRepository verificationUserRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final CartRepository cartRepository;
+
     @Override
     public SignInResponse login(UserLoginDTO userLoginDTO) {
         authenticationManager.authenticate(
@@ -51,6 +55,7 @@ public class UserService implements IUserService {
         return SignInResponse.builder()
                 .userInfo(
                         UserResponseDTO.builder()
+                                .userId(user.getId())
                                 .fullName(user.getFullName())
                                 .email(user.getEmail())
                                 .phone(user.getPhone())
@@ -110,11 +115,16 @@ public class UserService implements IUserService {
                 .role(Role.USER)
                 .build();
         User user = userRepository.save(newUser);
+        Cart cart = Cart.builder()
+                .user(user)
+                .build();
+        cartRepository.save(cart);
         verificationUserRepository.deleteAllByEmail(userRegisterDTO.getEmail());
         var accessToken = jwtService.generateToken(user);
         return SignInResponse.builder()
                 .userInfo(
                         UserResponseDTO.builder()
+                                .userId(user.getId())
                                 .fullName(user.getFullName())
                                 .email(user.getEmail())
                                 .phone(user.getPhone())

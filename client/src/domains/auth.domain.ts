@@ -24,6 +24,7 @@ interface IChangePassword {
 }
 
 interface IUserInfo {
+  userId: number;
   email: string;
   fullName: string;
   phone?: string;

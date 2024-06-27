@@ -1,3 +1,5 @@
+import { IAddToCart } from '@/domains/cart.domain';
+
 const EndPoints = {
   category: {
     getCategories: '/categories'
@@ -13,6 +15,10 @@ const EndPoints = {
     emailVerification: '/authentication/email-verification',
     forgotPassword: '/authentication/forgot-password',
     changePassword: '/authentication/change-password'
+  },
+  cart: {
+    getCart: '/cart',
+    addToCart: '/cart/add-item'
   }
 };
 
