@@ -1,18 +1,20 @@
 'use client';
 
-import { IProductListProps } from '@/domains/params.domain';
+import { IProductListProps } from '@/domains';
 import { useProductList } from '@/queries/product';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuthStore } from '@/stores';
 
 const ProductList = ({ categoryId, limit, searchParams }: IProductListProps) => {
   const { data: products } = useProductList({ categoryId, limit, searchParams });
+  const { userInfo } = useAuthStore();
 
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
       {products?.map((product) => (
         <Link
-          href={`/product/${product.id}`}
+          href={userInfo ? `/product/${product.id}` : '/auth/sign-in'}
           key={product.id}
           className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
         >

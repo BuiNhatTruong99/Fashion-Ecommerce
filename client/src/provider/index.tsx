@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { SnackbarUtilsConfiguration } from "@/hooks/useMessageRef";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MaterialDesignContent, SnackbarProvider } from "notistack";
+import { SnackbarUtilsConfiguration } from '@/hooks/useMessageRef';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SnackbarProvider } from 'notistack';
 
 export default function Providers({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {

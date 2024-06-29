@@ -32,16 +32,18 @@ const SinglePage = ({ params }: { params: { id: number } }) => {
         <div className="text-sm">
           <h4 className="font-medium mb-4">RETURN & REFUND POLICY</h4>
           <p className="text-gray-500">
-            Thank you for shopping at <strong>CÉLINE</strong>. If you are not entirely satisfied with your purchase, we
-            are here to help. You have 30 days to return an item from the date you received it. Once we receive your
-            item, we will inspect it and notify you that we have received your returned item.
+            Thank you for shopping at <strong>CÉLINE</strong>. If you are not entirely satisfied
+            with your purchase, we are here to help. You have 30 days to return an item from the
+            date you received it. Once we receive your item, we will inspect it and notify you that
+            we have received your returned item.
           </p>
         </div>
         <div className="text-sm">
           <h4 className="font-medium mb-4 ">SHIPPING INFO</h4>
           <p className="text-gray-500">
-            You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are
-            non-refundable. If you receive a refund, the cost of return shipping will be deducted from your refund.
+            You will be responsible for paying for your own shipping costs for returning your item.
+            Shipping costs are non-refundable. If you receive a refund, the cost of return shipping
+            will be deducted from your refund.
           </p>
         </div>
       </div>

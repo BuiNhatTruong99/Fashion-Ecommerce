@@ -1,6 +1,6 @@
 const Skeleton = () => {
   return (
-    <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap animate-pulse ">
+    <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap animate-pulse">
       <div className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]">
         <div className="w-full h-80 bg-gray-100 rounded-md" />
         <div className="w-full flex justify-between ">

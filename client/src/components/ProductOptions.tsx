@@ -39,7 +39,10 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({ variants, productId }) 
   const isVariantInStock = (choices: { [key: string]: string }) => {
     return variants.some((variant) => {
       const { color, size } = variant;
-      return Object.entries(choices).every(([key, value]) => color === value || size === value) && variant.stock > 0;
+      return (
+        Object.entries(choices).every(([key, value]) => color === value || size === value) &&
+        variant.stock > 0
+      );
     });
   };
 
@@ -108,7 +111,7 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({ variants, productId }) 
           })}
         </ul>
       </div>
-      <AddProduct stockQuantity={variant?.stock as number} />
+      <AddProduct stockQuantity={variant?.stock as number} productId={productId} />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { IErrorData } from '@/domains';
+import { useAuthStore } from '@/stores';
 import axios, { AxiosError } from 'axios';
 
 const HttpClient = axios.create({
@@ -9,7 +10,12 @@ const HttpClient = axios.create({
 });
 
 HttpClient.interceptors.request.use(
-  (config) => {
+  (config: any) => {
+    const { accessToken } = useAuthStore.getState();
+
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
   },
   (error) => {
@@ -23,14 +29,22 @@ HttpClient.interceptors.response.use(
   },
   (error: AxiosError<IErrorData>) => {
     if (error.code === 'ERR_NETWORK' || error.code === 'ERR_BAD_RESPONSE') {
-      throw new Error('Something went wrong! Please check network again');
+      return Promise.reject('Something went wrong! Please check network again.');
     }
 
     if (error.response?.data?.message) {
       return Promise.reject(error.response?.data?.message);
     }
 
-    return Promise.reject(error.response?.data || 'Something went wrong! Please check network again.');
+    if (error.response?.status === 401) {
+      localStorage.removeItem('auth');
+      window.location.href = '/auth/sign-in';
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(
+      error.response?.data || 'Something went wrong! Please check network again.'
+    );
   }
 );
 

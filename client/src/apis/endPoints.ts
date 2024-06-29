@@ -13,6 +13,11 @@ const EndPoints = {
     emailVerification: '/authentication/email-verification',
     forgotPassword: '/authentication/forgot-password',
     changePassword: '/authentication/change-password'
+  },
+  cart: {
+    getCart: '/cart',
+    addToCart: '/cart/add-item',
+    deleteCartItem: '/cart/delete-item'
   }
 };
 
