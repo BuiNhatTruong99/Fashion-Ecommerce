@@ -3,14 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ReactEventHandler, useState } from 'react';
+import { useState } from 'react';
 import CartModel from './CartModel';
 import { useAuthStore } from '@/stores';
 
 const NavIcons = () => {
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const { userInfo, reset } = useAuthStore();
 
@@ -20,6 +19,10 @@ const NavIcons = () => {
     } else {
       setIsProfileOpen((prev) => !prev);
     }
+  };
+
+  const handleCart = () => {
+    if (!userInfo) router.push('/auth/sign-in');
   };
 
   const handleSignOut = () => {
@@ -53,20 +56,13 @@ const NavIcons = () => {
         height={22}
         className="cursor-pointer"
       />
-      <div className="">
-        <Image
-          src="/cart.png"
-          alt="cart"
-          width={22}
-          height={22}
-          className="cursor-pointer"
-          onClick={() => setIsCartOpen((prev) => !prev)}
-        />
-        <div className="absolute -top-4 -right-4 w-6 h-6 bg-primary rounded-full text-white text-sm flex items-center justify-center">
-          2
+      {!userInfo ? (
+        <div className="" onClick={handleCart}>
+          <Image src="/cart.png" alt="cart" width={22} height={22} className="cursor-pointer" />
         </div>
-      </div>
-      {isCartOpen && <CartModel />}
+      ) : (
+        <CartModel />
+      )}
     </div>
   );
 };

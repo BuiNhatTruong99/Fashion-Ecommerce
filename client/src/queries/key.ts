@@ -16,6 +16,7 @@ export const QUERIES_KEY = {
   },
   CART: {
     GET_CART: 'GET_CART',
-    ADD_TO_CART: 'ADD_TO_CART'
+    ADD_TO_CART: 'ADD_TO_CART',
+    REMOVE_FROM_CART: 'REMOVE_FROM_CART'
   }
 };

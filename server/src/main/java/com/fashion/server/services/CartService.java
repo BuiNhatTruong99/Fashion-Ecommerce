@@ -75,4 +75,13 @@ public class CartService implements ICartService {
         cartItem.get().setQuantity(quantity);
         return cartItemRepository.save(cartItem.get());
     }
+
+    @Override
+    public void deleteCartItem(Integer cartItemId) {
+        Optional<CartItem> cartItem = cartItemRepository.findById(cartItemId);
+        if (cartItem.isEmpty()) {
+            throw new ResourceNotFoundException("Cart item [%s] not found".formatted(cartItemId));
+        }
+        cartItemRepository.delete(cartItem.get());
+    }
 }

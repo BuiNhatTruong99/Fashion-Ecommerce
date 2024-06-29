@@ -1,5 +1,3 @@
-import { IAddToCart } from '@/domains/cart.domain';
-
 const EndPoints = {
   category: {
     getCategories: '/categories'
@@ -18,7 +16,8 @@ const EndPoints = {
   },
   cart: {
     getCart: '/cart',
-    addToCart: '/cart/add-item'
+    addToCart: '/cart/add-item',
+    deleteCartItem: '/cart/delete-item'
   }
 };
 

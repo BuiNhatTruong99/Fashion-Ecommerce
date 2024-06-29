@@ -11,6 +11,9 @@ import { ISignIn } from '@/domains/auth.domain';
 import { useAuthStore } from '@/stores';
 import { useMessage } from '@/hooks/useMessage';
 import { useRouter } from 'next/navigation';
+import { useCartStore } from '@/stores/cart/cart.store';
+import { useCart } from '@/queries/cart';
+import { useGetCart } from '@/hooks/useCart';
 
 const SignInForm = () => {
   const {

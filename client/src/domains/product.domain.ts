@@ -39,6 +39,7 @@ interface IProductListProps {
   categoryId?: number;
   limit?: number;
   searchParams?: any;
+  title?: string;
 }
 
 interface IProductVariantsProps {
@@ -54,5 +55,5 @@ export type {
   IProductImagesProps,
   IProductVariant,
   IProductListProps,
-  IProductVariantsProps,
+  IProductVariantsProps
 };

@@ -7,3 +7,8 @@ export const getCartService = async (userId: number): Promise<any> =>
 
 export const addItemToCartService = async (value: IAddToCart) =>
   await HttpClient.post<IAddToCart, any>(EndPoints.cart.addToCart, value);
+
+export const deleteCartItemService = async (value: number) =>
+  await HttpClient.delete<ICart, any>(EndPoints.cart.deleteCartItem, {
+    params: { cartItemId: value }
+  });

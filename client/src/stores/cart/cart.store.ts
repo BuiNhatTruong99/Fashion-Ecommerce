@@ -1,18 +1,21 @@
+import { number } from 'zod';
 import { ICart } from '@/domains/cart.domain';
 import { create } from 'zustand';
 
 interface ICartState {
   cart: ICart;
   counter: number;
+  total: number;
   setCart: (cart: ICart) => void;
-  addToCart: (productId: string, quantity: number, cartId: number) => void;
-  removeFromCart: (productId: string) => void;
+  setCounter: (counter: number) => void;
+  setTotal: (total: number) => void;
 }
 
 export const useCartStore = create<ICartState>((set) => ({
-  cart: { cartItems: [] },
+  cart: { id: 0, cartItems: [] },
   counter: 0,
+  total: 0,
   setCart: (cart) => set({ cart }),
-  addToCart: (productId: string, quantity: number, cartId: number) => {},
-  removeFromCart: (productId: string) => {}
+  setCounter: (counter) => set({ counter }),
+  setTotal: (total) => set({ total })
 }));

@@ -5,9 +5,10 @@ import { useCategoryList } from '@/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import Skeleton from './Skeleton';
 
 const CategoryList = () => {
-  const { data: categories, error } = useCategoryList();
+  const { data: categories, error, isLoading } = useCategoryList();
   const message = useMessage();
 
   useEffect(() => {

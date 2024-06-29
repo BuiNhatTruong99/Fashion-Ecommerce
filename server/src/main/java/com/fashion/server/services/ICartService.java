@@ -15,4 +15,6 @@ public interface ICartService {
     CartItem addCartItem(CartItemRequestDTO cartItemRequestDTO);
 
     CartItem updateCartItem(Integer cartItemId, Integer quantity);
+
+    void deleteCartItem(Integer cartItemId);
 }

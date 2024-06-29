@@ -1,6 +1,7 @@
 import { IProduct } from './product.domain';
 
 interface ICart {
+  id: number;
   cartItems: ICartItem[];
 }
 

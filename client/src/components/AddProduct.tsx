@@ -1,12 +1,19 @@
 'use client';
 
+import { useGetCart } from '@/hooks/useCart';
+import { useMessage } from '@/hooks/useMessage';
+import { QUERIES_KEY } from '@/queries';
+import { useAddToCartMutation } from '@/queries/cart';
+import { useCartStore } from '@/stores/cart/cart.store';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 interface AddProductProps {
   stockQuantity: number;
+  productId: number;
 }
 
-const AddProduct: React.FC<AddProductProps> = ({ stockQuantity }) => {
+const AddProduct: React.FC<AddProductProps> = ({ stockQuantity, productId }) => {
   const [quantity, setQuantity] = useState(0);
 
   const stock = stockQuantity;
@@ -18,6 +25,26 @@ const AddProduct: React.FC<AddProductProps> = ({ stockQuantity }) => {
     if (type === 'i' && quantity < stock) {
       setQuantity((prev) => prev + 1);
     }
+  };
+
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending } = useAddToCartMutation();
+  const { cart } = useGetCart();
+  const message = useMessage();
+
+  const handleAddToCart = () => {
+    mutateAsync(
+      { productId, quantity, cartId: cart?.id as number },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QUERIES_KEY.CART.GET_CART] });
+          message.success('Product added to cart');
+        },
+        onError: (err) => {
+          message.error(err);
+        }
+      }
+    );
   };
 
   return (
@@ -45,8 +72,11 @@ const AddProduct: React.FC<AddProductProps> = ({ stockQuantity }) => {
             <br /> {"Don't"} miss it
           </div>
         </div>
-        <button className="w-36 text-sm rounded-3xl ring-1 ring-primary text-primary py-2 px-4 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:ring-0 disabled:text-white disabled:ring-none">
-          Add to Cart
+        <button
+          className="w-36 text-sm rounded-3xl ring-1 ring-primary text-primary py-2 px-4 hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:ring-0 disabled:text-white disabled:ring-none"
+          onClick={handleAddToCart}
+        >
+          {isPending ? 'Adding...' : 'Add to cart'}
         </button>
       </div>
     </div>

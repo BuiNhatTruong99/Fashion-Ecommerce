@@ -111,7 +111,7 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({ variants, productId }) 
           })}
         </ul>
       </div>
-      <AddProduct stockQuantity={variant?.stock as number} />
+      <AddProduct stockQuantity={variant?.stock as number} productId={productId} />
     </>
   );
 };
